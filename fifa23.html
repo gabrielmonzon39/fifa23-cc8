@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 
-<html lang="en"></html>
+<html lang="en">
+  <body></body>
+</html>
 <body onload="startGame()">
   <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    html {
+      display: table;
+      margin: auto;
+    }
+
+    body {
+      display: table-cell;
+      vertical-align: middle;
+    }
     canvas {
       border: 1px solid #d3d3d3;
       background-color: #f1f1f1;
+      margin: 0 auto;
     }
   </style>
   <script>
-    // Read keyboard a, d and spacebar
+    // Read keyboard wasd and spacebar
     document.onkeydown = function (e) {
       switch (e.keyCode) {
         case 32:
@@ -24,14 +41,22 @@
           console.log("D");
           // Move right
           myGamePiece.speedX = 10;
-          console.log(myGamePiece);
-          console.log(myGamePiece.speedX);
+          break;
+        case 87:
+          console.log("W");
+          // Move up
+          myGamePiece.speedY = -10;
+          break;
+        case 83:
+          console.log("S");
+          // Move down
+          myGamePiece.speedY = 10;
           break;
       }
     };
 
     function startGame() {
-      myGamePiece = new component(30, 30, "red", 10, 120);
+      myGamePiece = new component(30, 30, "red", 0, 0);
       myScore = new component("30px", "Consolas", "black", 280, 40, "text");
       myGameArea.start();
     }
@@ -39,8 +64,8 @@
     var myGameArea = {
       canvas: document.createElement("canvas"),
       start: function () {
-        this.canvas.width = 700;
-        this.canvas.height = 700;
+        this.canvas.width = 1600;
+        this.canvas.height = 1000;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
