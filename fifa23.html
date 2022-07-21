@@ -114,6 +114,26 @@
       };
     }
 
+    var ballRadius = 10;
+    var x = canvas.width/2;
+    var y = canvas.height-30;
+    var dx = 2;
+    var dy = -2;
+    function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ball();
+    
+    if(x + dx > canvas.width-7.5 || x + dx < 7.5) {
+        dx = -dx;
+    }
+    if(y + dy > canvas.height-7.5 || y + dy < 7.5) {
+        dy = -dy;
+    }
+    
+    x += dx;
+    y += dy;
+}
+
     function component(width, height, color, x, y, type) {
       this.type = type;
       this.score = 0;
