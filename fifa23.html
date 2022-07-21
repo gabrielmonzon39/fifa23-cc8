@@ -111,6 +111,12 @@
         this.gravitySpeed += this.gravity;
         this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
+        if (this.x < 0) this.x = 0;
+        if (this.x > myGameArea.canvas.width - this.width)
+          this.x = myGameArea.canvas.width - this.width;
+        if (this.y < 0) this.y = 0;
+        if (this.y > myGameArea.canvas.height - this.height)
+          this.y = myGameArea.canvas.height - this.height;
       };
     }
 
