@@ -61,7 +61,7 @@
 
     function startGame() {
       myGamePiece = new component(30, 30, "red", 0, 0);
-      myBall = new ball(15, 15, 800, 500, 2, 2, 0, 0);
+      myBall = new ball(35*3.5, 35*3.5, 800, 500, 5, 5, 0, 0);
       myScore = new component("30px", "Consolas", "black", 280, 40, "text");
       myGameArea.start();
     }
@@ -109,17 +109,14 @@
       };
       this.newPos = function () {
           this.gravitySpeed += this.gravity;
+          if(this.x+this.width > 1600-35-20 || this.x < 35) {
+              this.speedX = -this.speedX;
+          }
+          if(this.y+this.height > 1000-35 || this.y < 35) {
+              this.speedY = -this.speedY;
+          }    
           this.x += this.speedX;
           this.y += this.speedY + this.gravitySpeed;
-
-        if(this.x + this.speedX > 1600-7.5 || this.x + this.speedX < 7.5) {
-            this.speedX = -this.speedX;
-        }
-        if(this.y + this.speedY > 1000-7.5 || this.y + this.speedY < 7.5) {
-            this.speedY = -this.speedY;
-        }
-       
-    
       };
     }
 
