@@ -61,7 +61,7 @@
 
     function startGame() {
       myGamePiece = new component(30, 30, "red", 0, 0);
-      
+      myBall = new ball(15, 15, 800, 500, 2, 2, 0, 0);
       myScore = new component("30px", "Consolas", "black", 280, 40, "text");
       myGameArea.start();
     }
@@ -85,9 +85,33 @@
       myGameArea.clear();
       myGamePiece.newPos();
       myGamePiece.update();
+      myBall.newPos();
+      myBall.update();
       myGamePiece.speedX = 0;
       myGamePiece.speedY = 0;
       myGameArea.frameNo += 1;
+    }
+
+    function ball(width, height, x, y, speedX, speedY, gravity, gravitySpeed) {
+      this.width = width;
+      this.height = height;
+      this.speedX = speedX;
+      this.speedY = speedY;
+      this.x = x;
+      this.y = y;
+      this.gravity = gravity;
+      this.gravitySpeed = gravitySpeed;
+      this.update = function () {
+          ctx = myGameArea.context;
+          var ball_ = new Image();
+          ball_.src = "./balon.png";
+          ctx.drawImage(ball_, this.x, this.y);
+      };
+      this.newPos = function () {
+          this.gravitySpeed += this.gravity;
+          this.x += this.speedX;
+          this.y += this.speedY + this.gravitySpeed;
+      };
     }
 
     function component(width, height, color, x, y, type) {
