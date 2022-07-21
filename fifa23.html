@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en"></html>
+<body onload="startGame()">
+  <style>
+    canvas {
+      border: 1px solid #d3d3d3;
+      background-color: #f1f1f1;
+    }
+  </style>
+  <script>
+    // Read keyboard a, d and spacebar
+    document.onkeydown = function (e) {
+      switch (e.keyCode) {
+        case 32:
+          console.log("Spacebar");
+          break;
+        case 65:
+          console.log("A");
+          break;
+        case 68:
+          console.log("D");
+          break;
+      }
+    };
+  </script>
+</body>
