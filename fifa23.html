@@ -17,11 +17,83 @@
           break;
         case 65:
           console.log("A");
+          // Move left
+          myGamePiece.speedX = -100;
           break;
         case 68:
           console.log("D");
+          // Move right
+          myGamePiece.speedX = 100;
+          console.log(myGamePiece);
+          console.log(myGamePiece.speedX);
           break;
       }
     };
+
+    function startGame() {
+      myGamePiece = new component(30, 30, "red", 10, 120);
+      myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+      myGameArea.start();
+    }
+
+    var myGameArea = {
+      canvas: document.createElement("canvas"),
+      start: function () {
+        this.canvas.width = 700;
+        this.canvas.height = 700;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+      },
+      clear: function () {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      },
+    };
+
+    function updateGameArea() {
+      myGameArea.clear();
+      myGamePiece.speedX = 0;
+      myGamePiece.speedY = 0;
+      myGamePiece.newPos();
+      myGamePiece.update();
+      myGameArea.frameNo += 1;
+    }
+
+    function component(width, height, color, x, y, type) {
+      this.type = type;
+      this.score = 0;
+      this.width = width;
+      this.height = height;
+      this.speedX = 0;
+      this.speedY = 0;
+      this.x = x;
+      this.y = y;
+      this.gravity = 0;
+      this.gravitySpeed = 0;
+      this.update = function () {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+          ctx.font = this.width + " " + this.height;
+          ctx.fillStyle = color;
+          ctx.fillText(this.text, this.x, this.y);
+        } else {
+          ctx.fillStyle = color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+      };
+      this.newPos = function () {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+      };
+    }
+
+    function everyinterval(n) {
+      if ((myGameArea.frameNo / n) % 1 == 0) {
+        return true;
+      }
+      return false;
+    }
   </script>
 </body>
