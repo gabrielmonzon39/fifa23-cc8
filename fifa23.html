@@ -18,12 +18,12 @@
         case 65:
           console.log("A");
           // Move left
-          myGamePiece.speedX = -100;
+          myGamePiece.speedX = -10;
           break;
         case 68:
           console.log("D");
           // Move right
-          myGamePiece.speedX = 100;
+          myGamePiece.speedX = 10;
           console.log(myGamePiece);
           console.log(myGamePiece.speedX);
           break;
@@ -53,10 +53,10 @@
 
     function updateGameArea() {
       myGameArea.clear();
-      myGamePiece.speedX = 0;
-      myGamePiece.speedY = 0;
       myGamePiece.newPos();
       myGamePiece.update();
+      myGamePiece.speedX = 0;
+      myGamePiece.speedY = 0;
       myGameArea.frameNo += 1;
     }
 
