@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <body></body>
+  <body>
+    <center>
+      <div id="score"><h1></h1></div>
+      <div id="timer"><h1></h1></div>
+    </center>
+  </body>
 </html>
 <body onload="startGame()">
   <style>
@@ -30,39 +35,165 @@
     }
   </style>
   <script>
+    
+    var goals1 = 0;
+    var goals2 = 0;
+    var time = 120;
+
+    const timer = setInterval(()=>{
+      document.getElementById('timer').innerHTML="<h1>Tiempo restante: "+time+" segundos.</h1>";
+      time--;
+      if (time == 0) {
+        document.getElementById('timer').innerHTML="<h1>Partido acabado</h1>";
+        clearInterval(timer);
+      }
+    },1000);
+
     // Read keyboard wasd and spacebar
     document.onkeydown = function (e) {
       switch (e.keyCode) {
-        case 32:
-          console.log("Spacebar");
+        case 87: // W
+
+          //////////          4          //////////
+          if (myPlayers4_1.count != -1) {
+            myPlayers4_1.previous = myPlayers4_1.count;
+            myPlayers4_1.count -= 1;
+            myPlayers4_1.speedY = -40;
+          } else {
+            myPlayers4_1.previous = myPlayers4_1.count;
+          }
+
+          //////////          2          //////////
+          if (myPlayers2_1.count != -2) {
+            myPlayers2_1.previous = myPlayers2_1.count;
+            myPlayers2_1.count -= 1;
+            myPlayers2_1.speedY = -40;
+          } else {
+            myPlayers2_1.previous = myPlayers2_1.count;
+          }
+
+          //////////          1          //////////
+          if (myPlayers1_1.count != -5) {
+            myPlayers1_1.previous = myPlayers1_1.count;
+            myPlayers1_1.count -= 1;
+            myPlayers1_1.speedY = -40;
+          } else {
+            myPlayers1_1.previous = myPlayers1_1.count;
+          }
+
           break;
-        case 65:
-          console.log("A");
-          // Move left
-          myGamePiece.speedX = -10;
+
+        case 38:
+          // flecha de arriba
+
+          //////////          4          //////////
+          if (myPlayers4_2.count != -1) {
+            myPlayers4_2.previous = myPlayers4_2.count;
+            myPlayers4_2.count -= 1;
+            myPlayers4_2.speedY = -40;
+          } else {
+            myPlayers4_2.previous = myPlayers4_2.count;
+          }
+
+          //////////          2          //////////
+          if (myPlayers2_2.count != -2) {
+            myPlayers2_2.previous = myPlayers2_2.count;
+            myPlayers2_2.count -= 1;
+            myPlayers2_2.speedY = -40;
+          } else {
+            myPlayers2_2.previous = myPlayers2_2.count;
+          }
+
+          //////////          1          //////////
+          if (myPlayers1_2.count != -5) {
+            myPlayers1_2.previous = myPlayers1_2.count;
+            myPlayers1_2.count -= 1;
+            myPlayers1_2.speedY = -40;
+          } else {
+            myPlayers1_2.previous = myPlayers1_2.count;
+          }
+
           break;
-        case 68:
-          console.log("D");
-          // Move right
-          myGamePiece.speedX = 10;
+
+        case 83: // S
+
+          //////////          4          //////////
+          if (myPlayers4_1.count != 1) { 
+            myPlayers4_1.previous = myPlayers4_1.count;
+            myPlayers4_1.speedY = 40;
+            myPlayers4_1.count += 1;
+          } else {
+            myPlayers4_1.previous = myPlayers4_1.count;
+          }
+          
+          //////////          2          //////////
+          if (myPlayers2_1.count != 2) { 
+            myPlayers2_1.previous = myPlayers2_1.count;
+            myPlayers2_1.speedY = 40;
+            myPlayers2_1.count += 1;
+          } else {
+            myPlayers2_1.previous = myPlayers2_1.count;
+          }
+
+          //////////          1          //////////
+          if (myPlayers1_1.count != 5) { 
+            myPlayers1_1.previous = myPlayers1_1.count;
+            myPlayers1_1.speedY = 40;
+            myPlayers1_1.count += 1;
+          } else {
+            myPlayers1_1.previous = myPlayers1_1.count;
+          }
+
           break;
-        case 87:
-          console.log("W");
-          // Move up
-          myGamePiece.speedY = -10;
-          break;
-        case 83:
-          console.log("S");
-          // Move down
-          myGamePiece.speedY = 10;
+
+        case 40: // flecha abajo
+
+          //////////          4          //////////
+          if (myPlayers4_2.count != 1) { 
+            myPlayers4_2.previous = myPlayers4_2.count;
+            myPlayers4_2.speedY = 40;
+            myPlayers4_2.count += 1;
+          } else {
+            myPlayers4_2.previous = myPlayers4_2.count;
+          }
+
+          //////////          2          //////////
+          if (myPlayers2_2.count != 2) { 
+            myPlayers2_2.previous = myPlayers2_2.count;
+            myPlayers2_2.speedY = 40;
+            myPlayers2_2.count += 1;
+          } else {
+            myPlayers2_2.previous = myPlayers2_2.count;
+          }
+
+          //////////          1          //////////
+           if (myPlayers1_2.count != 5) { 
+            myPlayers1_2.previous = myPlayers1_2.count;
+            myPlayers1_2.speedY = 40;
+            myPlayers1_2.count += 1;
+          } else {
+            myPlayers1_2.previous = myPlayers1_2.count;
+          }
+
           break;
       }
     };
 
     function startGame() {
-      myGamePiece = new component(30, 30, "red", 0, 0);
-      myBall = new ball(35*3.5, 35*3.5, 800, 500, 5, 5, 0, 0);
-      myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+
+      ///////  P1  ///////
+      myPlayers4_1 = new players_4(30, 30, 800-200, 500-60, 20, 0, "rusia");
+      myPlayers2_1 = new players_2(30, 30, 800+340, 500-60, 20, 0, "rusia");
+      myPlayers1_1 = new players_1(30, 30,      70, 500-60, 10, 0, "rusia");
+
+      ///////  P2  ///////
+      myPlayers4_2 = new players_4(30, 30, 800+100, 500-60, 20, 0, "suecia");
+      myPlayers2_2 = new players_2(30, 30, 800-450, 500-60, 20, 0, "suecia");
+      myPlayers1_2 = new players_1(30, 30,1600-65*3,500-60, 10, 0, "suecia");
+
+      //myGamePiece = new component(30, 30, "red", 0, 0);
+      myBall = new ball(35*3.5, 35*3.5, 730, 430, 1, 1, 0, 0);
+      //myScore = new component("30px", "Consolas", "black", 0, 0, "text");
       myGameArea.start();
     }
 
@@ -82,14 +213,72 @@
     };
 
     function updateGameArea() {
+    
+      if (time == 0) {
+        var ganador = "Empate";
+        if (goals1 == goals2) {
+          document.getElementById('timer').innerHTML="<h1>¡"+ganador+"!</h1>";
+          return;
+        }
+        if (goals1 > goals2) ganador = "EQUIPO 1";
+        if (goals1 < goals2) ganador = "EQUIPO 2";
+        document.getElementById('timer').innerHTML="<h1>¡¡"+ganador+" GANADOR!!</h1>";
+        return;
+      } 
+
       myGameArea.clear();
-      myGamePiece.newPos();
-      myGamePiece.update();
-      myBall.newPos();
+      //myGamePiece.newPos();
+      //myGamePiece.update();
+
+      ///////  P1  ///////
+      myPlayers4_1.newPos();
+      myPlayers4_1.update();
+      myPlayers2_1.newPos();
+      myPlayers2_1.update();
+      myPlayers1_1.newPos();
+      myPlayers1_1.update();
+
+      ///////  P2  ///////
+      myPlayers4_2.newPos();
+      myPlayers4_2.update();
+      myPlayers2_2.newPos();
+      myPlayers2_2.update();
+      myPlayers1_2.newPos();
+      myPlayers1_2.update();
+
+      ///////  P1  ///////
+      myBall.newPos(myPlayers4_1);
+      myBall.newPos2(myPlayers2_1);
+      myBall.newPos1(myPlayers1_1);
+
+      ///////  P2  ///////
+      myBall.newPos(myPlayers4_2);
+      myBall.newPos2(myPlayers2_2);
+      myBall.newPos1(myPlayers1_2);
+
+      myBall.isItGoal();
       myBall.update();
-      myGamePiece.speedX = 0;
-      myGamePiece.speedY = 0;
+      
+      ///////  P1  ///////
+      myPlayers4_1.speedX = 0;
+      myPlayers4_1.speedY = 0;
+      myPlayers2_1.speedX = 0;
+      myPlayers2_1.speedY = 0;
+      myPlayers1_1.speedX = 0;
+      myPlayers1_1.speedY = 0;
+
+      ///////  P2  ///////
+      myPlayers4_2.speedX = 0;
+      myPlayers4_2.speedY = 0;
+      myPlayers2_2.speedX = 0;
+      myPlayers2_2.speedY = 0;
+      myPlayers1_2.speedX = 0;
+      myPlayers1_2.speedY = 0;
+
+      //myGamePiece.speedX = 0;
+      //myGamePiece.speedY = 0;
       myGameArea.frameNo += 1;
+
     }
 
     function ball(width, height, x, y, speedX, speedY, gravity, gravitySpeed) {
@@ -107,19 +296,199 @@
           ball_.src = "./balon.png";
           ctx.drawImage(ball_, this.x, this.y);
       };
-      this.newPos = function () {
+      
+      this.isItGoal = function () {
+        if (this.x < 35 && this.y > 200 && this.y < 700) {
+          this.x = 730;
+          this.y = 430;
+          this.speedX = 1;
+          this.speedY = 1;
+          goals2++;
+        }
+        if(this.x > 1420 && this.y > 200 && this.y < 700) {
+          this.x = 730;
+          this.y = 430;
+          this.speedX = 1;
+          this.speedY = 1;
+          goals1++;
+        }
+        document.getElementById('score').innerHTML="<h1>"+goals1+ " : " +goals2+"</h1>";
+      };
+
+      this.newPos = function (myPlayers4) {
           this.gravitySpeed += this.gravity;
           if(this.x+this.width > 1600-35-20 || this.x < 35) {
               this.speedX = -this.speedX;
           }
           if(this.y+this.height > 1000-35 || this.y < 35) {
               this.speedY = -this.speedY;
-          }    
+          }
+          //console.log(this.x + "  " + this.y + " - " + myPlayers4.x + " " + myPlayers4.y1);
+          // check collision (players_4)
+          if ( // colision por derecha
+              ((this.x > myPlayers4.x &&
+              this.x < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y1 - 35 && 
+              this.y < myPlayers4.y1 + 35) ||
+              (this.x > myPlayers4.x &&
+              this.x < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y2 - 35 && 
+              this.y < myPlayers4.y2 + 35) ||
+              (this.x > myPlayers4.x &&
+              this.x < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y3 - 35 && 
+              this.y < myPlayers4.y3 + 35) ||
+              (this.x > myPlayers4.x &&
+              this.x < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y4 - 35 && 
+              this.y < myPlayers4.y4 + 35)) ||
+              // colision por izquierda
+              (( this.x + 35*3.5 > myPlayers4.x &&
+              this.x + 35*3.5 < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y1 - 35 && 
+              this.y < myPlayers4.y1 + 35) ||
+              (this.x + 35*3.5 > myPlayers4.x &&
+              this.x + 35*3.5 < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y2 - 35 && 
+              this.y < myPlayers4.y2 + 35) ||
+              (this.x + 35*3.5 > myPlayers4.x &&
+              this.x + 35*3.5 < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y3 - 35 && 
+              this.y < myPlayers4.y3 + 35) ||
+              (this.x + 35*3.5 > myPlayers4.x &&
+              this.x + 35*3.5 < myPlayers4.x + 70 &&
+              this.y > myPlayers4.y4 - 35 && 
+              this.y < myPlayers4.y4 + 35))) {
+            this.speedX = -this.speedX;
+          }
+          if (this.speedX > 0) this.speedX += 0.001;
+          else this.speedX -= 0.001;
+          if (this.speedY > 0) this.speedY += 0.001;
+          else this.speedY -= 0.001;
           this.x += this.speedX;
-          this.y += this.speedY + this.gravitySpeed;
+          this.y += this.speedY;
+      };
+
+      this.newPos2 = function (myPlayers2) {
+        // check collision (players_2)
+        //console.log(this.x + "  " + this.y + " - " + myPlayers2.x + " " + myPlayers2.y1);
+        if ( // colision por derecha
+            ((this.x > myPlayers2.x &&
+            this.x < myPlayers2.x + 70 &&
+            this.y > myPlayers2.y1 - 70 && 
+            this.y < myPlayers2.y1 + 70) ||
+            (this.x > myPlayers2.x &&
+            this.x < myPlayers2.x + 70 &&
+            this.y > myPlayers2.y2 - 70 && 
+            this.y < myPlayers2.y2 + 70)) ||
+            // colision por izquierda
+            ((this.x + 35*3.5 > myPlayers2.x &&
+            this.x + 35*3.5 < myPlayers2.x + 70 &&
+            this.y > myPlayers2.y1 - 70 && 
+            this.y < myPlayers2.y1 + 70) ||
+            (this.x + 35*3.5 > myPlayers2.x &&
+            this.x + 35*3.5 < myPlayers2.x + 70 &&
+            this.y > myPlayers2.y2 - 70 && 
+            this.y < myPlayers2.y2 + 70))) {
+          this.speedX = -this.speedX;
+        }
+      };
+
+      this.newPos1 = function (myPlayers1) {
+        // check collision (players_1)
+        //console.log(this.x + "  " + this.y + " - " + myPlayers1.x + " " + myPlayers1.y1);
+        if ( // colision por derecha
+            ((this.x > myPlayers1.x &&
+            this.x < myPlayers1.x + 70 &&
+            this.y > myPlayers1.y1 - 70 && 
+            this.y < myPlayers1.y1 + 70)) ||
+            // colision por izquierda
+            ((this.x + 35*3.5 > myPlayers1.x &&
+            this.x + 35*3.5 < myPlayers1.x + 70 &&
+            this.y > myPlayers1.y1 - 70 && 
+            this.y < myPlayers1.y1 + 70))) {
+          this.speedX = -this.speedX;
+        }
       };
     }
 
+    function players_4(width, height, x, y, speedY, count, country) {
+      this.width = width;
+      this.height = height;
+      this.x  = x;
+      this.y = y;
+      this.y1 = y - 60*2;
+      this.y2 = y - 60*6;
+      this.y3 = y + 60*2;
+      this.y4 = y + 60*6;
+      this.speedY = speedY; 
+      this.count = count;
+      this.previous = count;
+      this.update = function () {
+          ctx = myGameArea.context;
+          var ball_ = new Image();
+          ball_.src = "./"+country+".png";
+          ctx.drawImage(ball_, this.x, this.y1);
+          ctx.drawImage(ball_, this.x, this.y2);
+          ctx.drawImage(ball_, this.x, this.y3);
+          ctx.drawImage(ball_, this.x, this.y4);
+      };
+      this.newPos = function () {
+        if (this.count == -1 && this.speedY < 0 && this.previous != 0) return;
+        if (this.count ==  1 && this.speedY > 0 && this.previous != 0) return;
+        this.y1 += this.speedY;
+        this.y2 += this.speedY;
+        this.y3 += this.speedY;
+        this.y4 += this.speedY;
+      };
+    }
+
+    function players_2(width, height, x, y, speedY, count, country) {
+      this.width = width;
+      this.height = height;
+      this.x  = x;
+      this.y = y;
+      this.y1 = y - 60*4;
+      this.y2 = y + 60*4;
+      this.speedY = speedY; 
+      this.count = count;
+      this.previous = count;
+      this.update = function () {
+          ctx = myGameArea.context;
+          var ball_ = new Image();
+          ball_.src = "./"+country+".png";
+          ctx.drawImage(ball_, this.x, this.y1);
+          ctx.drawImage(ball_, this.x, this.y2);
+      };
+      this.newPos = function () {
+        if (this.count == -2 && this.speedY < 0 && this.previous != -1) return;
+        if (this.count ==  2 && this.speedY > 0 && this.previous !=  1) return;
+        this.y1 += this.speedY;
+        this.y2 += this.speedY;
+      };
+    }
+
+    function players_1(width, height, x, y, speedY, count, country) {
+      this.width = width;
+      this.height = height;
+      this.x  = x;
+      this.y = y;
+      this.y1 = y;
+      this.speedY = speedY; 
+      this.count = count;
+      this.previous = count;
+      this.update = function () {
+          ctx = myGameArea.context;
+          var ball_ = new Image();
+          ball_.src = "./"+country+".png";
+          ctx.drawImage(ball_, this.x, this.y1);
+      };
+      this.newPos = function () {
+        if (this.count == -5 && this.speedY < 0 && this.previous != -4) return;
+        if (this.count ==  5 && this.speedY > 0 && this.previous !=  4) return;
+        this.y1 += this.speedY;
+      };
+    }
   
 
     function component(width, height, color, x, y, type) {
@@ -138,7 +507,7 @@
         if (this.type == "text") {
           ctx.font = this.width + " " + this.height;
           ctx.fillStyle = color;
-          ctx.fillText(this.text, this.x, this.y);
+          ctx.fillText("Hola XD", this.x, this.y);
         } else {
           ctx.fillStyle = color;
           ctx.fillRect(this.x, this.y, this.width, this.height);
