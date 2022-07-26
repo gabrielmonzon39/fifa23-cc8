@@ -192,7 +192,21 @@
       myPlayers1_2 = new players_1(30, 30,1600-65*3,500-60, 10, 0, "suecia");
 
       //myGamePiece = new component(30, 30, "red", 0, 0);
-      myBall = new ball(35*3.5, 35*3.5, 730, 430, 1, 1, 0, 0);
+      var tempX = Math.floor(Math.random()*2);
+      var tempY = Math.floor(Math.random()*2);
+      var speedX, speedY;
+      if (tempX == 0) {
+        speedX = Math.floor(Math.random()*2)-2;
+      } else {
+        speedX = Math.floor(Math.random()*2)+1;
+      }
+      if (tempY == 0) {
+        speedY = Math.floor(Math.random()*2)-2;
+      } else {
+        speedY = Math.floor(Math.random()*2)+1;
+      }
+      
+      myBall = new ball(35*3.5, 35*3.5, 730, 430, speedX, speedY, 0, 0);
       //myScore = new component("30px", "Consolas", "black", 0, 0, "text");
       myGameArea.start();
     }
@@ -298,35 +312,51 @@
       };
       
       this.isItGoal = function () {
-        if (this.x < 35 && this.y > 200 && this.y < 700) {
+        var tempX = Math.floor(Math.random()*2);
+        var tempY = Math.floor(Math.random()*2);
+        var speedX, speedY;
+        if (tempX == 0) {
+          speedX = Math.floor(Math.random()*2)-2;
+        } else {
+          speedX = Math.floor(Math.random()*2)+1;
+        }
+        if (tempY == 0) {
+          speedY = Math.floor(Math.random()*2)-2;
+        } else {
+          speedY = Math.floor(Math.random()*2)+1;
+        }
+
+        if (this.x < 50 && this.y > 200 && this.y < 700) {
           this.x = 730;
           this.y = 430;
-          this.speedX = 1;
-          this.speedY = 1;
+          this.speedX = speedX;
+          this.speedY = speedY;
           goals2++;
         }
         if(this.x > 1420 && this.y > 200 && this.y < 700) {
           this.x = 730;
           this.y = 430;
-          this.speedX = 1;
-          this.speedY = 1;
+          this.speedX = speedX;
+          this.speedY = speedY;
           goals1++;
         }
+        
         document.getElementById('score').innerHTML="<h1>"+goals1+ " : " +goals2+"</h1>";
       };
 
       this.newPos = function (myPlayers4) {
           this.gravitySpeed += this.gravity;
           if(this.x+this.width > 1600-35-20 || this.x < 35) {
-              this.speedX = -this.speedX;
+            this.speedX = -this.speedX;
           }
           if(this.y+this.height > 1000-35 || this.y < 35) {
               this.speedY = -this.speedY;
           }
-          //console.log(this.x + "  " + this.y + " - " + myPlayers4.x + " " + myPlayers4.y1);
+          //console.log(this.x + "  " + this.y + " - " + myPlayers4.x + " " + myPlayers4.y3);
           // check collision (players_4)
+          //console.log("x: " + this.speedX + "  y: " + this.speedY);
           if ( // colision por derecha
-              ((this.x > myPlayers4.x &&
+              (((this.x > myPlayers4.x &&
               this.x < myPlayers4.x + 70 &&
               this.y > myPlayers4.y1 - 35 && 
               this.y < myPlayers4.y1 + 35) ||
@@ -341,9 +371,9 @@
               (this.x > myPlayers4.x &&
               this.x < myPlayers4.x + 70 &&
               this.y > myPlayers4.y4 - 35 && 
-              this.y < myPlayers4.y4 + 35)) ||
+              this.y < myPlayers4.y4 + 35)) && this.speedX < 0) ||
               // colision por izquierda
-              (( this.x + 35*3.5 > myPlayers4.x &&
+              ((( this.x + 35*3.5 > myPlayers4.x &&
               this.x + 35*3.5 < myPlayers4.x + 70 &&
               this.y > myPlayers4.y1 - 35 && 
               this.y < myPlayers4.y1 + 35) ||
@@ -358,8 +388,9 @@
               (this.x + 35*3.5 > myPlayers4.x &&
               this.x + 35*3.5 < myPlayers4.x + 70 &&
               this.y > myPlayers4.y4 - 35 && 
-              this.y < myPlayers4.y4 + 35))) {
-            this.speedX = -this.speedX;
+              this.y < myPlayers4.y4 + 35)) && this.speedX > 0)) {
+                //console.log(this.speedX>0);
+                this.speedX = -this.speedX;
           }
           if (this.speedX > 0) this.speedX += 0.001;
           else this.speedX -= 0.001;
@@ -373,23 +404,23 @@
         // check collision (players_2)
         //console.log(this.x + "  " + this.y + " - " + myPlayers2.x + " " + myPlayers2.y1);
         if ( // colision por derecha
-            ((this.x > myPlayers2.x &&
+            (((this.x > myPlayers2.x &&
             this.x < myPlayers2.x + 70 &&
             this.y > myPlayers2.y1 - 70 && 
             this.y < myPlayers2.y1 + 70) ||
             (this.x > myPlayers2.x &&
             this.x < myPlayers2.x + 70 &&
             this.y > myPlayers2.y2 - 70 && 
-            this.y < myPlayers2.y2 + 70)) ||
+            this.y < myPlayers2.y2 + 70)) && this.speedX < 0) ||
             // colision por izquierda
-            ((this.x + 35*3.5 > myPlayers2.x &&
+            (((this.x + 35*3.5 > myPlayers2.x &&
             this.x + 35*3.5 < myPlayers2.x + 70 &&
             this.y > myPlayers2.y1 - 70 && 
             this.y < myPlayers2.y1 + 70) ||
             (this.x + 35*3.5 > myPlayers2.x &&
             this.x + 35*3.5 < myPlayers2.x + 70 &&
             this.y > myPlayers2.y2 - 70 && 
-            this.y < myPlayers2.y2 + 70))) {
+            this.y < myPlayers2.y2 + 70)) && this.speedX > 0)) {
           this.speedX = -this.speedX;
         }
       };
@@ -401,12 +432,12 @@
             ((this.x > myPlayers1.x &&
             this.x < myPlayers1.x + 70 &&
             this.y > myPlayers1.y1 - 70 && 
-            this.y < myPlayers1.y1 + 70)) ||
+            this.y < myPlayers1.y1 + 70) && this.speedX < 0) ||
             // colision por izquierda
             ((this.x + 35*3.5 > myPlayers1.x &&
             this.x + 35*3.5 < myPlayers1.x + 70 &&
             this.y > myPlayers1.y1 - 70 && 
-            this.y < myPlayers1.y1 + 70))) {
+            this.y < myPlayers1.y1 + 70) && this.speedX > 0)) {
           this.speedX = -this.speedX;
         }
       };
