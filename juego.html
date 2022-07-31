@@ -19,8 +19,11 @@
     const fieldWidth = 1350
     const fieldHeight = 850
 
+
     const speedX = 269
     const speedY = 365
+    //const speedX = 0
+    //const speedY = -50
 
     const remainingTime = 120
 
@@ -42,6 +45,10 @@
     let e3Counter = 0, e3UP = false, e3DOWN = false, e3Limit = 3;
     let e2Counter = 0, e2UP = false, e2DOWN = false, e2Limit = 4;
     let e1Counter = 0, e1UP = false, e1DOWN = false, e1Limit = 5;
+
+    let awaitChange = false;
+    let previousX = 0;
+    let previousY = 0;
     
     // initialize context
     kaboom({
@@ -207,6 +214,7 @@
         scale(0.3),
         // --33*2
         pos(width/2, height/2-height/5),
+        //pos(70, height/2),
         //move(UP, speedX),
         area(),
         solid(),
@@ -367,15 +375,29 @@
     })
 
     onUpdate('ball', (b) => {
-        if (horizontalCollide) {
-            currentSpeedX = -currentSpeedX;
-            horizontalCollide = false;
+        while (true) {
+
+            //console.log("AQUIIIIIIIIIIIIIIIIIIIII");
+            if (horizontalCollide) {
+                currentSpeedX = currentSpeedX*-1;
+                horizontalCollide = false;
+            }
+            if (verticalCollide) {
+                currentSpeedY = currentSpeedY*-1;
+                verticalCollide = false;
+            }
+            awaitChange = false;
+            b.move(currentSpeedX, currentSpeedY);
+
+            if (b.pos.x == previousX && b.pos.y == previousY) {
+                horizontalCollide = true;
+                verticalCollide = true;
+            } else {
+                previousX = b.pos.x;
+                previousY = b.pos.y;
+                break;
+            }
         }
-        if (verticalCollide) {
-            currentSpeedY = -currentSpeedY;
-            verticalCollide = false;
-        }
-        b.move(currentSpeedX, currentSpeedY);
     })
 
     onUpdate('player1', () => {
@@ -519,20 +541,23 @@
     // ...
     onCollide("ball", "player1", () => {
         const allPlayers = get('player1');
+        //console.log(currentSpeedY);
         for (var i = 0; i < allPlayers.length; i++) {
             var player = allPlayers[i];
             console.log(i + " - " + ball.pos.x + ", " + ball.pos.y + " : " + player.pos.x + ", " + player.pos.y)
             if (Math.abs(ball.pos.x - player.pos.x) < 60 &&
-                Math.abs(ball.pos.y - player.pos.y) < 20) {
+                Math.abs(ball.pos.y - player.pos.y) < 20 && !awaitChange) {
+                    awaitChange = true;
                     horizontalCollide = true;
                     console.log("Horizontal X");
                     break;
             }
-            if (Math.abs(ball.pos.y - player.pos.y) < 60 &&
-                Math.abs(ball.pos.x - player.pos.x) < 55) {
-                   verticalCollide = true; 
-                   console.log("Vertical X");
-                   break;
+            if (Math.abs(ball.pos.y - player.pos.y) < 55 &&
+                Math.abs(ball.pos.x - player.pos.x) < 55 && !awaitChange) {
+                    awaitChange = true;
+                    verticalCollide = true;
+                    console.log("Vertical X");
+                    break;
             }
         }
     });
@@ -592,6 +617,7 @@
     });
 
     onCollide("ball", "bordeHorizontal", () => {
+        console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         verticalCollide = true;
     });
 
