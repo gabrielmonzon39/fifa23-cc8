@@ -4,10 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futbolito</title>
+    <title>Chango-Gol UG</title>
 </head>
-<body>
-    
+<body style="background-color: black;
+             overflow: hidden;">
+    <p class="space"></p>
+    <style>
+        .space {
+            margin-bottom: 0.5cm;
+        }
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            width: 1350px;
+            border: 3px solid #6fad98;
+        }
+    </style>
+    <canvas id="mycanvas">
+
+    </canvas>
 </body>
 <script type="module">
 
@@ -56,6 +74,7 @@
         width: width,
         height: height,
         font: "sinko",
+        canvas: document.querySelector("#mycanvas"),
     })
 
     // load assets
@@ -561,19 +580,19 @@
         //console.log(currentSpeedY);
         for (var i = 0; i < allPlayers.length; i++) {
             var player = allPlayers[i];
-            console.log(i + " - " + ball.pos.x + ", " + ball.pos.y + " : " + player.pos.x + ", " + player.pos.y)
+            //console.log(i + " - " + ball.pos.x + ", " + ball.pos.y + " : " + player.pos.x + ", " + player.pos.y)
             if (Math.abs(ball.pos.x - player.pos.x) < 60 &&
                 Math.abs(ball.pos.y - player.pos.y) < 20 && !awaitChange) {
                     awaitChange = true;
                     horizontalCollide = true;
-                    console.log("Horizontal X");
+                    //console.log("Horizontal X");
                     break;
             }
             if (Math.abs(ball.pos.y - player.pos.y) < 55 &&
                 Math.abs(ball.pos.x - player.pos.x) < 55 && !awaitChange) {
                     awaitChange = true;
                     verticalCollide = true;
-                    console.log("Vertical X");
+                    //console.log("Vertical X");
                     break;
             }
         }
@@ -634,7 +653,6 @@
     });
 
     onCollide("ball", "bordeHorizontal", () => {
-        console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         verticalCollide = true;
     });
 
