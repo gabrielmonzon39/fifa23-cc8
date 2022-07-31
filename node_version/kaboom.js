@@ -1,6 +1,9 @@
 import kaboom from "kaboom";
 import move_up from "./conexion.js";
 
+// MUSIC
+let audio = document.getElementById("gol");
+
 const width = 1600;
 const height = 1000;
 
@@ -661,6 +664,7 @@ onCollide("ball", "bordeHorizontal", () => {
 });
 
 onCollide("ball", "porteria1", () => {
+  audio.play();
   horizontalCollide = true;
   goals2++;
   score.text = goals1 / 2 + ":" + goals2 / 2;
@@ -676,6 +680,7 @@ onCollide("ball", "porteria1", () => {
 });
 
 onCollide("ball", "porteria2", () => {
+  audio.play();
   horizontalCollide = true;
   goals1++;
   score.text = goals1 / 2 + ":" + goals2 / 2;
