@@ -1,6 +1,5 @@
 import kaboom from "kaboom";
-import bar from "./conexion.js";
-bar();
+import move_up from "./conexion.js";
 
 const width = 1600;
 const height = 1000;
@@ -607,6 +606,7 @@ onCollide("ball", "player1", () => {
 // -----------  PLAYER 3  -----------
 onKeyPress("w", () => {
   p3UP = true;
+  move_up();
 });
 onKeyPress("s", () => {
   p3DOWN = true;
