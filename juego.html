@@ -8,6 +8,8 @@
 </head>
 <body style="background-color: black;
              overflow: hidden;">
+    <audio src="Goodbye.mp3" autoplay loop></audio>
+    <audio src="Gol.mp3" id="gol"></audio>
     <p class="space"></p>
     <style>
         .space {
@@ -28,6 +30,10 @@
     </canvas>
 </body>
 <script type="module">
+
+    // MUSIC
+    let audio = document.getElementById("gol");
+
 
     import kaboom from "https://unpkg.com/kaboom/dist/kaboom.mjs"
 
@@ -657,6 +663,7 @@
     });
 
     onCollide("ball", "porteria1", () => {
+        audio.play();
         horizontalCollide = true;
         goals2++;
         score.text = goals1/2 + ":" + goals2/2;  
@@ -672,6 +679,7 @@
     });
 
     onCollide("ball", "porteria2", () => {
+        audio.play();
         horizontalCollide = true;
         goals1++;
         score.text = goals1/2 + ":" + goals2/2;
