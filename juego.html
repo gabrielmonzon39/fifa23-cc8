@@ -53,13 +53,22 @@
     // load assets
     loadSprite("background", "https://static.vecteezy.com/system/resources/previews/000/264/902/original/vector-scifi-space-background-for-ui-game.jpg")
     loadSprite("ball", "https://www.mariowiki.com/images/thumb/1/15/Ball_MarioStrikersCharged.png/180px-Ball_MarioStrikersCharged.png")
-    //loadSprite("player", "http://s3.amazonaws.com/spoonflower/public/design_thumbnails/0563/7452/rombre_red_to_orange_shop_thumb.png")
-    loadSprite("player", "https://snap.skindb.co/fallguys/faceplate/5f419b7b15498d2a702a989b/icon.png")
+    loadSprite("player", "https://static.vecteezy.com/system/resources/previews/000/545/296/original/abstract-stripes-oblique-lines-texture-red-background-vector.jpg")
+    //loadSprite("player", "https://snap.skindb.co/fallguys/faceplate/5f419b7b15498d2a702a989b/icon.png")
     loadSprite("lightning", "https://gifimage.net/wp-content/uploads/2018/04/lightning-gif-transparent-1.gif")
     //loadSprite("enemy", "http://www.sherv.net/cm/emoticons/horror/green-alien-spaceship-smiley-emoticon.gif");
-
+    //loadSound("music", "https://drive.google.com/file/d/1GZtba-N81ggIYW182m7q5qgfToaG0H9p/view");
 
     layer(['obj', 'ui'], 'obj')
+
+    // add the music
+    /*const music = play("music", {
+        volume: 0.8,
+        loop: true
+    })
+
+    music.pause()
+    music.play()*/
 
     // add the background to screen
     add([
@@ -200,7 +209,7 @@
         sprite("ball"),
         scale(0.3),
         // --33*2
-        pos(width/2, height/2),
+        pos(width/2, height/2-height/5),
         //move(UP, speedX),
         area(),
         solid(),
@@ -211,7 +220,7 @@
     var players3 = [
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2-fieldWidth/11, fieldHeight/2-fieldHeight/3.5),
             area(),
             solid(),
@@ -219,7 +228,7 @@
         ]),
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2-fieldWidth/11, fieldHeight/2),
             area(),
             solid(),
@@ -227,7 +236,7 @@
         ]),
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2-fieldWidth/11, fieldHeight/2+fieldHeight/3.5),
             area(),
             solid(),
@@ -239,7 +248,7 @@
     var players1 = [
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/11, fieldHeight/2+fieldHeight/21),
             area(),
             solid(),
@@ -251,7 +260,7 @@
     var players2 = [
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2+fieldWidth/2.8, fieldHeight/2-fieldHeight/7),
             area(),
             solid(),
@@ -259,7 +268,7 @@
         ]),
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2+fieldWidth/2.8, fieldHeight/2+fieldHeight/5),
             area(),
             solid(),
@@ -271,7 +280,7 @@
     var enemy3 = [
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2+fieldWidth/5, fieldHeight/2-fieldHeight/3.5),
             area(),
             solid(),
@@ -279,7 +288,7 @@
         ]),
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2+fieldWidth/5, fieldHeight/2),
             area(),
             solid(),
@@ -287,7 +296,7 @@
         ]),
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2+fieldWidth/5, fieldHeight/2+fieldHeight/3.5),
             area(),
             solid(),
@@ -299,7 +308,7 @@
     var enemy1 = [
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(width-fieldWidth/7, fieldHeight/2+fieldHeight/21),
             area(),
             solid(),
@@ -311,7 +320,7 @@
     var enemy2 = [
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2-fieldWidth/4, fieldHeight/2-fieldHeight/7),
             area(),
             solid(),
@@ -319,7 +328,7 @@
         ]),
         add([
             sprite("player"),
-            scale(0.5),
+            scale(0.005),
             pos(fieldWidth/2-fieldWidth/4, fieldHeight/2+fieldHeight/5),
             area(),
             solid(),
@@ -507,15 +516,19 @@
 
     })
 
+    // pelota 180*169 scale(0.3)
+    // fall guy 129*133 scale(0.005)
+    // 129 * 0.5 = 64.5 ancho de imagen por la escala colocada
+    // ...
     onCollide("ball", "player1", () => {
         for (var i = 0; i < players1.length; i++) {
             let player = players1[i];
-            if ((ball.pos.x + 20 <= player.pos.x) ||
-                (ball.pos.x >= player.pos.x + 20)) {
+            if ((ball.pos.x + 54 <= player.pos.x) ||
+                (ball.pos.x >= player.pos.x + 64.5)) {
                     horizontalCollide = true;
             }
-            if ((ball.pos.y + 20 <= player.pos.y) ||
-                (ball.pos.y >= player.pos.y + 20)) {
+            if ((ball.pos.y + 50.7 <= player.pos.y) ||
+                (ball.pos.y >= player.pos.y + 66.5)) {
                     verticalCollide = true;
             }
         }
@@ -605,8 +618,6 @@
         ]);    
     });
 
-    // burp on "b"
-    onKeyPress("b", burp)
     
 </script>
 </html>
