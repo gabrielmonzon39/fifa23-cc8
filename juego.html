@@ -37,6 +37,7 @@
     let goals2 = 0
 
     const playerSpeed = 1200
+    const friction = 0.1
 
     let p3Counter = 0, p3UP = false, p3DOWN = false, p3Limit = 3;
     let p2Counter = 0, p2UP = false, p2DOWN = false, p2Limit = 4;
@@ -375,9 +376,15 @@
     })
 
     onUpdate('ball', (b) => {
+        if (currentSpeedX < 5 && currentSpeedX > -5 && 
+            currentSpeedY < 5 && currentSpeedY > -5) {
+            b.pos.x = width/2;
+            b.pos.y = height/2;
+            currentSpeedX = speedX;
+            currentSpeedY = speedY;
+            return;
+        }
         while (true) {
-
-            //console.log("AQUIIIIIIIIIIIIIIIIIIIII");
             if (horizontalCollide) {
                 currentSpeedX = currentSpeedX*-1;
                 horizontalCollide = false;
@@ -397,6 +404,16 @@
                 previousY = b.pos.y;
                 break;
             }
+        }
+        if (currentSpeedY > 0) {
+            currentSpeedY -= friction;
+        } else {
+            currentSpeedY += friction;
+        }
+        if (currentSpeedX > 0) {
+            currentSpeedX -= friction;
+        } else {
+            currentSpeedX += friction;
         }
     })
 
@@ -625,7 +642,9 @@
         horizontalCollide = true;
         goals2++;
         score.text = goals1/2 + ":" + goals2/2;  
-        ball.pos = new Vec2(width/2, height/2); 
+        ball.pos = new Vec2(width/2, height/2);
+        currentSpeedX = speedX;
+        currentSpeedY = speedY; 
         shake();
         add([
             pos(-width/5,height/2-height/4),
@@ -639,6 +658,8 @@
         goals1++;
         score.text = goals1/2 + ":" + goals2/2;
         ball.pos = new Vec2(width/2, height/2);
+        currentSpeedX = speedX;
+        currentSpeedY = speedY;
         shake();  
         add([
             pos(width/2+width/7,height/2-height/4),
