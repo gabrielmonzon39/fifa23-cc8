@@ -10,5 +10,8 @@ socket.on("hello", (arg, callback) => {
 });
 
 export default function move_up() {
-  socket.send("move_up");
+  socket.emit("hello", "world", (response) => {
+    console.log(response); // "got it"
+  });
+  console.log(socket.id);
 }

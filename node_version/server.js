@@ -9,9 +9,13 @@ io.on("connection", (socket) => {
     console.log(response); // "got it"
   });
   console.log(socket.id);
-});
 
-io.on("move_up", (arg, callback) => {
-  console.log(arg); // "world"
-  callback("got it");
+  socket.on("move_up", (arg, callback) => {
+    console.log(arg); // "world"
+    callback("got it");
+  });
+
+  socket.on("hello", (arg, callback) => {
+    console.log(arg); // "world"
+  });
 });

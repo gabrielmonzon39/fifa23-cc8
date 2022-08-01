@@ -46,7 +46,7 @@ eval("/**\n * Helpers.\n */\n\nvar s = 1000;\nvar m = s * 60;\nvar h = m * 60;\n
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ move_up)\n/* harmony export */ });\nconst { io } = __webpack_require__(/*! socket.io-client */ \"../node_modules/socket.io-client/build/cjs/index.js\");\nconst socket = io(\"ws://localhost:3000\");\n\nsocket.on(\"connect\", () => {\n  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL\n});\n\nsocket.on(\"hello\", (arg, callback) => {\n  console.log(arg); // \"world\"\n  callback(\"got it\");\n});\n\nfunction move_up() {\n  socket.send(\"move_up\");\n}\n\n\n//# sourceURL=webpack:///./conexion.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ move_up)\n/* harmony export */ });\nconst { io } = __webpack_require__(/*! socket.io-client */ \"../node_modules/socket.io-client/build/cjs/index.js\");\nconst socket = io(\"ws://localhost:3000\");\n\nsocket.on(\"connect\", () => {\n  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL\n});\n\nsocket.on(\"hello\", (arg, callback) => {\n  console.log(arg); // \"world\"\n});\n\nfunction move_up() {\n  socket.emit(\"hello\", \"world\", (response) => {\n    console.log(response); // \"got it\"\n  });\n  console.log(socket.id);\n}\n\n\n//# sourceURL=webpack:///./conexion.js?");
 
 /***/ }),
 
