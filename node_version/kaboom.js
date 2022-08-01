@@ -32,7 +32,7 @@ const speedY = 365;
 //const speedX = 0
 //const speedY = -50
 
-const remainingTime = 120;
+const remainingTime = 4;
 
 let currentSpeedX = speedX;
 let currentSpeedY = speedY;
@@ -42,9 +42,11 @@ let verticalCollide = false;
 
 let goals1 = 0;
 let goals2 = 0;
+let moveBall = true;
+let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.1;
+const friction = 0.3;
 
 let p3Counter = 0,
   p3UP = false,
@@ -398,19 +400,26 @@ const timer = add([
   },
 ]);
 
-timer.action(() => {
+timer.onUpdate(() => {
   if (timer.time > 0) timer.time -= dt();
   timer.text = timer.time.toFixed(2);
   if (timer.time <= 0) {
+    moveBall = false;
+    movePlayer = false;
+    var message = (goals1 == goals2) ? "EMPATE": (goals1 < goals2) ? "DERROTA" : "VICTORIA";
+    message = "JUEGO TERMINADO\n\t\t\t\t  " + message;
     add([
-      text("JUEGO TERMINADO"),
+      text(message),
+      origin("left"),
       pos(width / 2 - width / 5, height / 2),
       scale(5),
     ]);
+    
   }
 });
 
 onUpdate("ball", (b) => {
+  if (!moveBall) return;
   if (
     currentSpeedX < 5 &&
     currentSpeedX > -5 &&
@@ -458,6 +467,7 @@ onUpdate("ball", (b) => {
 
 onUpdate("player1", () => {
   // -----------  PLAYER 3  -----------
+  if (!movePlayer) return;
   if (p3UP) {
     if (p3Counter < p3Limit) {
       for (var i = 0; i < players3.length; i++) {
