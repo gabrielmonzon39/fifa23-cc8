@@ -5,11 +5,13 @@ const io = require("socket.io")(3000, {
 });
 
 io.on("connection", (socket) => {
-  console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
+  socket.emit("hello", "world", (response) => {
+    console.log(response); // "got it"
+  });
+  console.log(socket.id);
 });
 
-io.on("move_up", (socket) => {
-  var msg = data + "world";
-  socket.emit("news-response", msg);
-  console.log("hola");
+io.on("move_up", (arg, callback) => {
+  console.log(arg); // "world"
+  callback("got it");
 });

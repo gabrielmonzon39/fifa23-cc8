@@ -5,6 +5,10 @@ socket.on("connect", () => {
   console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
 });
 
+socket.on("hello", (arg, callback) => {
+  console.log(arg); // "world"
+});
+
 export default function move_up() {
-  socket.emit("move_up", "hello");
+  socket.send("move_up");
 }
