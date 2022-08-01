@@ -32,7 +32,7 @@ const speedY = 365;
 //const speedX = 0
 //const speedY = -50
 
-const remainingTime = 4;
+const remainingTime = 120;
 
 let currentSpeedX = speedX;
 let currentSpeedY = speedY;
@@ -46,7 +46,9 @@ let moveBall = true;
 let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.3;
+const friction = 0.4;
+const impulsePlayer = 3;
+const impulseSwing = 7;
 
 let p3Counter = 0,
   p3UP = false,
@@ -108,6 +110,10 @@ loadSprite(
   "enemy",
   "http://4.bp.blogspot.com/-ZcYLHi0RNNc/UEBlZivLzyI/AAAAAAAACYs/RGa97yyjW7Y/s72-c/green_website_background_pattern.jpg"
 );
+loadSprite(
+  "swing",
+  "http://2.bp.blogspot.com/_lj_y7Z_fw94/S7hJYY0udEI/AAAAAAAAA14/P-cNKvMZBV0/s1600/sun+animated+clip+art.gif"
+)
 
 // player  556*556
 //         scale(0.005)
@@ -407,16 +413,42 @@ timer.onUpdate(() => {
     moveBall = false;
     movePlayer = false;
     var message = (goals1 == goals2) ? "EMPATE": (goals1 < goals2) ? "DERROTA" : "VICTORIA";
-    message = "JUEGO TERMINADO\n\t\t\t\t  " + message;
+    message = "JUEGO TERMINADO\n\t\t\t\t " + message;
     add([
       text(message),
       origin("left"),
       pos(width / 2 - width / 5, height / 2),
       scale(5),
     ]);
-    
   }
 });
+
+
+function reduceSpeed(impulseX, impulseY) {
+  if (currentSpeedY > 0) {
+    currentSpeedY -= friction + impulseY;
+  } else {
+    currentSpeedY += friction + impulseY;
+  }
+  if (currentSpeedX > 0) {
+    currentSpeedX -= friction + impulseX;
+  } else {
+    currentSpeedX += friction + impulseX;
+  }
+}
+
+function swingChangeSpeed(impulseX, impulseY) {
+  if (currentSpeedY > 0) {
+    currentSpeedY += impulseY;
+  } else {
+    currentSpeedY -= impulseY;
+  }
+  if (currentSpeedX > 0) {
+    currentSpeedX += impulseX;
+  } else {
+    currentSpeedX -= impulseX;
+  }
+}
 
 onUpdate("ball", (b) => {
   if (!moveBall) return;
@@ -453,17 +485,9 @@ onUpdate("ball", (b) => {
       break;
     }
   }
-  if (currentSpeedY > 0) {
-    currentSpeedY -= friction;
-  } else {
-    currentSpeedY += friction;
-  }
-  if (currentSpeedX > 0) {
-    currentSpeedX -= friction;
-  } else {
-    currentSpeedX += friction;
-  }
+  reduceSpeed(0,0);
 });
+
 
 onUpdate("player1", () => {
   // -----------  PLAYER 3  -----------
@@ -606,10 +630,8 @@ onUpdate("player1", () => {
 // ...
 onCollide("ball", "player1", () => {
   const allPlayers = get("player1");
-  //console.log(currentSpeedY);
   for (var i = 0; i < allPlayers.length; i++) {
     var player = allPlayers[i];
-    //console.log(i + " - " + ball.pos.x + ", " + ball.pos.y + " : " + player.pos.x + ", " + player.pos.y)
     if (
       Math.abs(ball.pos.x - player.pos.x) < 60 &&
       Math.abs(ball.pos.y - player.pos.y) < 20 &&
@@ -617,7 +639,7 @@ onCollide("ball", "player1", () => {
     ) {
       awaitChange = true;
       horizontalCollide = true;
-      //console.log("Horizontal X");
+      reduceSpeed(impulsePlayer, 0);
       break;
     }
     if (
@@ -627,11 +649,43 @@ onCollide("ball", "player1", () => {
     ) {
       awaitChange = true;
       verticalCollide = true;
-      //console.log("Vertical X");
+      reduceSpeed(0, impulsePlayer);
       break;
     }
   }
 });
+
+onCollide("ball", "swing", () => {
+  const allSwings = get("swing");
+  for (var i = 0; i < allSwings.length; i++) {
+    var swingObject = allSwings[i];
+    if (
+      Math.abs(ball.pos.x - swingObject.pos.x) < 60 &&
+      Math.abs(ball.pos.y - swingObject.pos.y) < 20 &&
+      !awaitChange
+    ) {
+      awaitChange = true;
+      horizontalCollide = true;
+      swingChangeSpeed(impulseSwing, 0);
+      break;
+    }
+    if (
+      Math.abs(ball.pos.y - swingObject.pos.y) < 55 &&
+      Math.abs(ball.pos.x - swingObject.pos.x) < 55 &&
+      !awaitChange
+    ) {
+      awaitChange = true;
+      verticalCollide = true;
+      swingChangeSpeed(0, impulseSwing);
+      break;
+    }
+  }
+});
+
+// -----------------------------------
+// Desfases del swing de cada jugador
+const swingX = 30;
+const swingY = 20;
 
 // -----------  PLAYER 3  -----------
 onKeyPress("w", () => {
@@ -641,6 +695,19 @@ onKeyPress("w", () => {
 onKeyPress("s", () => {
   p3DOWN = true;
 });
+onKeyPress("x", () => {
+  for (var i = 0; i < players3.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(players3[i].pos.x+swingX,players3[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
 
 // -----------  PLAYER 2  -----------
 onKeyPress("e", () => {
@@ -649,6 +716,19 @@ onKeyPress("e", () => {
 onKeyPress("d", () => {
   p2DOWN = true;
 });
+onKeyPress("c", () => {
+  for (var i = 0; i < players2.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(players2[i].pos.x+swingX,players2[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
 
 // -----------  PLAYER 1  -----------
 onKeyPress("q", () => {
@@ -657,6 +737,20 @@ onKeyPress("q", () => {
 onKeyPress("a", () => {
   p1DOWN = true;
 });
+onKeyPress("z", () => {
+  for (var i = 0; i < players1.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(players1[i].pos.x+swingX,players1[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
+
 
 // -----------  ENEMY 3  -----------
 onKeyPress("i", () => {
@@ -665,6 +759,19 @@ onKeyPress("i", () => {
 onKeyPress("k", () => {
   e3DOWN = true;
 });
+onKeyPress(",", () => {
+  for (var i = 0; i < enemy3.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(enemy3[i].pos.x-2.5*swingX,enemy3[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
 
 // -----------  ENEMY 2  -----------
 onKeyPress("u", () => {
@@ -673,6 +780,19 @@ onKeyPress("u", () => {
 onKeyPress("j", () => {
   e2DOWN = true;
 });
+onKeyPress("m", () => {
+  for (var i = 0; i < enemy2.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(enemy2[i].pos.x-2.5*swingX,enemy2[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
 
 // -----------  ENEMY 1  -----------
 onKeyPress("o", () => {
@@ -681,6 +801,22 @@ onKeyPress("o", () => {
 onKeyPress("l", () => {
   e1DOWN = true;
 });
+onKeyPress(".", () => {
+  for (var i = 0; i < enemy1.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(enemy1[i].pos.x-2.5*swingX,enemy1[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
+
+
+
 
 onCollide("ball", "bordeVertical", () => {
   horizontalCollide = true;
