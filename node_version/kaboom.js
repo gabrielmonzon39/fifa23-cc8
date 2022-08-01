@@ -1,5 +1,22 @@
 import kaboom from "kaboom";
-import move_up from "./conexion.js";
+import { io } from "socket.io-client";
+
+const socket = io("ws://localhost:3000");
+
+socket.on("connect", () => {
+  console.log(socket.id);
+});
+
+socket.on("hello", (arg, callback) => {
+  console.log(arg); // "world"
+});
+
+function move_up() {
+  socket.emit("hello", "world", (response) => {
+    console.log(response); // "got it"
+  });
+  console.log(socket.id);
+}
 
 // MUSIC
 let audio = document.getElementById("gol");
