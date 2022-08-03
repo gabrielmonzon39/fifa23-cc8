@@ -19,7 +19,12 @@ function move_up() {
 }
 
 // MUSIC
-let audio = document.getElementById("gol");
+let audioMusica = document.getElementById("musica");
+let audioGol = document.getElementById("gol");
+let audioAviso = document.getElementById("aviso");
+let audioChoque = document.getElementById("choque");
+audioMusica.volume = 0.2;
+audioMusica.play();
 
 const width = 1600;
 const height = 1000;
@@ -32,7 +37,7 @@ const speedY = 365;
 //const speedX = 0
 //const speedY = -50
 
-const remainingTime = 120;
+const remainingTime = 30;
 
 let currentSpeedX = speedX;
 let currentSpeedY = speedY;
@@ -46,9 +51,9 @@ let moveBall = true;
 let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.4;
-const impulsePlayer = 3;
-const impulseSwing = 7;
+const friction = 0.6;
+const impulsePlayer = 7;
+const impulseSwing = 14;
 
 let p3Counter = 0,
   p3UP = false,
@@ -407,6 +412,22 @@ const timer = add([
 ]);
 
 timer.onUpdate(() => {
+  if (timer.time <= remainingTime/2 + 1 && timer.time >= remainingTime/2 - 1) {
+    shake(8);
+    audioAviso.play();
+    add([
+      text("Quedan " + remainingTime/2 + "segundos"),
+      origin("left"),
+      pos(width / 2 - width / 4, height / 2),
+      scale(6),
+      lifespan(3),
+    ]);
+    add([
+      pos(width / 2 + width / 7, height / 2 - height / 4),
+      sprite("lightning"),
+      lifespan(3),
+    ]);
+  }
   if (timer.time > 0) timer.time -= dt();
   timer.text = timer.time.toFixed(2);
   if (timer.time <= 0) {
@@ -656,6 +677,7 @@ onCollide("ball", "player1", () => {
 });
 
 onCollide("ball", "swing", () => {
+  audioChoque.play();
   const allSwings = get("swing");
   for (var i = 0; i < allSwings.length; i++) {
     var swingObject = allSwings[i];
@@ -827,7 +849,7 @@ onCollide("ball", "bordeHorizontal", () => {
 });
 
 onCollide("ball", "porteria1", () => {
-  audio.play();
+  audioGol.play();
   horizontalCollide = true;
   goals2++;
   score.text = goals1 / 2 + ":" + goals2 / 2;
@@ -843,7 +865,7 @@ onCollide("ball", "porteria1", () => {
 });
 
 onCollide("ball", "porteria2", () => {
-  audio.play();
+  audioGol.play();
   horizontalCollide = true;
   goals1++;
   score.text = goals1 / 2 + ":" + goals2 / 2;
