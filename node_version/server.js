@@ -3,19 +3,41 @@ const io = require("socket.io")(3000, {
     origin: "*",
   },
 });
+socket_hash = {};
 
 io.on("connection", (socket) => {
-  socket.emit("hello", "world", (response) => {
-    console.log(response); // "got it"
-  });
-  console.log(socket.id);
+  // emit to player the player number
+  socket.emit("player_number", Object.keys(socket_hash).length);
 
-  socket.on("move_up", (arg, callback) => {
-    console.log(arg); // "world"
-    callback("got it");
+  //add to socket_hash, player number is the count of players
+  socket_hash[socket.id] = {
+    socket: socket,
+    player_number: Object.keys(socket_hash).length,
+  };
+
+  //if player number is 6, broadcast to all players that the game is full
+  if (Object.keys(socket_hash).length == 6) {
+    io.emit("game_full");
+    console.log("game full");
+  }
+
+  //when move_up is sent, broadcast with player number to all players
+  socket.on("move_up", (player_number) => {
+    io.emit("move_up", player_number);
+    console.log("move up" + player_number);
   });
 
-  socket.on("hello", (arg, callback) => {
-    console.log(arg); // "world"
+  //when move_down is sent, broadcast with player number to all players
+  socket.on("move_down", (player_number) => {
+    io.emit("move_down", player_number);
+    console.log("move down" + player_number);
   });
+
+  //on disconnect, remove from socket_hash
+  socket.on("disconnect", () => {
+    delete socket_hash[socket.id];
+    console.log("disconnect" + socket.id);
+  });
+
+  console.log("a user connected" + socket.id);
 });
