@@ -6,7 +6,7 @@ const url = new URL(window.location.href);
 const ip = url.searchParams.get("ip");
 
 // CONEXION CON EL SERVIDOR
-const socket = io("ws://" + ip + ":3000");
+const socket = io("ws://" + ip);
 let player_number = -1;
 let game_full = false;
 
