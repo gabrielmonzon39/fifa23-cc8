@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chango-Gol UG</title>
+  </head>
+  <body style="background-color: black; overflow: hidden">
+    <audio volume="0.000001" src="../Musica.mp3" id="musica" loop></audio>
+    <audio volume="1" src="../Gol.mp3" id="gol"></audio>
+    <audio volume="1" src="../Aviso.mp3" id="aviso"></audio>
+    <audio volume="1" src="../Choque.mp3" id="choque"></audio>
+    <p class="space"></p>
+    <style>
+      .space {
+        margin-bottom: 0.5cm;
+      }
+      canvas {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        width: 1350px;
+        border: 3px solid #6fad98;
+      }
+    </style>
+    <canvas id="mycanvas"> </canvas>
+    <script src="multiplayer.js"></script>
+  </body>
+</html>
