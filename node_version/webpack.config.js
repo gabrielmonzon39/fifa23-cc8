@@ -1,9 +1,9 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./kaboom.js",
+  entry: { local: "./kaboom.js", multiplayer: "./kaboom_multiplayer.js" },
   output: {
     path: path.resolve(__dirname, "./"),
-    filename: "bundle.js",
+    filename: "[name].js",
   },
 };
