@@ -174,3 +174,27 @@ div.container-fluid{
 	cursor: pointer;
   padding-left: 5px;
 }
+
+.form-popup {
+  display: none;
+  margin: 70px auto;
+  padding: 20px;
+  background: black;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}

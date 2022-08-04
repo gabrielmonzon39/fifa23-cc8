@@ -10,9 +10,30 @@
         </div>
      
       <nav class="container-fluid">
+
+       
+
+        <script>
+          function openForm() {
+            document.getElementById("myForm").style.display = "block";
+          }
+          
+          function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+          }
+          </script>
           <ul class="myull">
-             <li class="start-btn"><a href="fifa23.html">Play</a> </li> <li class="start-btn"><a href="juego.html">Multiplayer</a> </li> <li class="video-game-button"><a href="#help">Help</a></li> 
+             <li class="start-btn"><a href="fifa23.html">Play</a> </li> <button class="start-btn" class="open-button" onclick="openForm()"><a href="">Multiplayer</a> </button> <li class="video-game-button" ><a href="#help">Help</a></li> 
           </ul>
+
+          <div class="form-popup" id="myForm" class="overlay">
+            <form action="/juego.html?ip=ip" class="form-container">
+              <label for="ip"><b>IP</b></label>
+              <input type="text" placeholder="Enter Ip" name="ip" required>
+              <button type="submit" class="video-game-button">ok</button>
+              <button  class="video-game-button" onclick="closeForm()">Close</button>
+            </form>
+          </div>
       </nav>
     </div>
 
