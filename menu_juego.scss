@@ -83,6 +83,7 @@
    transition: opacity 500ms;
    visibility: hidden;
    opacity: 0;
+   color:white;
  }
 
  .overlay:target {
@@ -120,7 +121,6 @@
  .popup .content {
    max-height: 30%;
    overflow: auto;
-   color: white;
  }
 
  @media screen and (max-width: 700px) {
@@ -185,6 +185,7 @@ div.container-fluid{
   width: 30%;
   position: relative;
   transition: all 5s ease-in-out;
+  color:white;
 }
 
 .open-button {
