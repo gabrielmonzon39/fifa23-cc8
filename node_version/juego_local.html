@@ -12,7 +12,11 @@
     <audio volume="1" src="../Aviso.mp3" id="aviso"></audio>
     <audio volume="1" src="../Choque.mp3" id="choque"></audio>
     <p class="space"></p>
+    <form action="../menu_juego.html">
+      <button  class="start-btn">Return</button>
+    </form>
     <style>
+       @import url("https://fonts.googleapis.com/css?family=Press Start 2P");
       .space {
         margin-bottom: 0.5cm;
       }
@@ -24,6 +28,25 @@
         display: block;
         width: 1350px;
         border: 3px solid #6fad98;
+      }
+
+      .start-btn {
+        text-align: center;
+        display: inline-block;
+        margin: 5px;
+        font-weight: bold;
+        padding: 10px 0 10px 10px;
+        background-color: lightgray;
+        text-shadow: -1px -1px black, 1px 1px white;
+        color: black;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        -o-border-radius: 7px;
+        border-radius: 7px;
+        box-shadow: 0 .2em gray;
+        cursor: pointer;
+        font-family: "Press Start 2p";
+
       }
     </style>
     <canvas id="mycanvas"> </canvas>
