@@ -478,6 +478,48 @@ const timer = add([
   },
 ]);
 
+const P1 = add([
+  text("P1"),
+  pos(120,950),
+  scale(3),
+  layer("ui")
+]);
+
+const P3 = add([
+  text("P3"),
+  pos(550,950),
+  scale(3),
+  layer("ui")
+]);
+
+const P2 = add([
+  text("P2"),
+  pos(1170,950),
+  scale(3),
+  layer("ui")
+]);
+
+const E2 = add([
+  text("E2"),
+  pos(330,950),
+  scale(3),
+  layer("ui")
+]);
+
+const E3 = add([
+  text("E3"),
+  pos(950,950),
+  scale(3),
+  layer("ui")
+]);
+
+const E1 = add([
+  text("E1"),
+  pos(1400,950),
+  scale(3),
+  layer("ui")
+]);
+
 timer.onUpdate(() => {
   if (
     timer.time <= remainingTime / 2 + 1 &&
