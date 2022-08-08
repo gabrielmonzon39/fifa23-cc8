@@ -34,11 +34,23 @@ const io = require("socket.io")(3000, {
       console.log("move up" + player_number);
     });
   
-    //when move_down is sent, broadcast with player number to all players
+    // swing
     socket.on("move_down", (player_number) => {
       io.emit("move_down", player_number);
       console.log("move down" + player_number);
     });
+
+    // swing
+    socket.on("swing_offensive", (player_number) => {
+        io.emit("swing_offensive", player_number);
+        console.log("swing_offensive" + player_number);
+      });
+    
+    // swing
+      socket.on("swing_defensive", (player_number) => {
+        io.emit("swing_defensive", player_number);
+        console.log("swing_defensive" + player_number);
+      });
   
     //on disconnect, remove from socket_hash
     socket.on("disconnect", () => {

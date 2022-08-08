@@ -33,6 +33,97 @@ function move_down() {
   socket.emit("move_down", player_number);
 }
 
+// send swing action
+function swing_offensive() {
+  socket.emit("swing_offensive", player_number);
+}
+
+function swing_defensive() {
+  socket.emit("swing_defensive", player_number);
+}
+
+// receive swing action
+socket.on("swing_offensive", (player_number) => {
+  console.log(`Player ${player_number} make a swing offensive`);
+  // switch player number to move up
+  switch (player_number) {
+    case 0:
+      make_swing_offensive(players1);
+      break;
+    case 1:
+      make_swing_offensive(players3);
+      break;
+    case 2:
+      make_swing_offensive(players2);
+      break;
+    case 3:
+      make_swing_offensive(enemy1);
+      break;
+    case 4:
+      make_swing_offensive(enemy3);
+      break;
+    case 5:
+      make_swing_offensive(enemy2);
+      break;
+  }
+});
+
+socket.on("swing_defensive", (player_number) => {
+  console.log(`Player ${player_number} make a swing defensive`);
+  // switch player number to move up
+  switch (player_number) {
+    case 0:
+      make_swing_defensive(players1);
+      break;
+    case 1:
+      make_swing_defensive(players3);
+      break;
+    case 2:
+      make_swing_defensive(players2);
+      break;
+    case 3:
+      make_swing_defensive(enemy1);
+      break;
+    case 4:
+      make_swing_defensive(enemy3);
+      break;
+    case 5:
+      make_swing_defensive(enemy2);
+      break;
+  }
+});
+
+
+function make_swing_offensive(player) {
+  for (var i = 0; i < player.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(player[i].pos.x+swingX,player[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+}
+
+function make_swing_defensive(player) {
+  for (var i = 0; i < player.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(player[i].pos.x-2.5*swingX,player[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+}
+
+
+
 socket.on("move_up", (player_number) => {
   console.log(`Player ${player_number} moved up`);
   movePlayer = true;
@@ -119,9 +210,9 @@ let moveBall = true;
 let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.5;
+const friction = 0.4;
 const impulsePlayer = 10;
-const impulseSwing = 150;
+const impulseSwing = 100;
 
 let p3Counter = 0,
   p3UP = false,
@@ -332,17 +423,17 @@ add([
 function getPlayerLocation(player_number) {
   switch (player_number) {
     case 0: 
-      return "Eres el portero\n de los rojos\n\t\t\t\t\t\tP1";
+      return "\t\tEsperando...\nEres el portero\n de los rojos\n\t\t\t\t\t\tP1";
     case 1: 
-      return "Eres el centrocampista\n de los rojos\n\t\t\t\t\t\tP3";
+      return "\t\tEsperando...\nEres el centrocampista\n de los rojos\n\t\t\t\t\t\tP3";
     case 2:
-      return "Eres el delantero\n de los rojos\n\t\t\t\t\t\tP2";
+      return "\t\tEsperando...\nEres el delantero\n de los rojos\n\t\t\t\t\t\tP2";
     case 3: 
-      return "Eres el portero\n de los verdes\n\t\t\t\t\t\tE1";
+      return "\t\tEsperando...\nEres el portero\n de los verdes\n\t\t\t\t\t\tE1";
     case 4: 
-      return "Eres el centrocampista\n de los verdes\n\t\t\t\t\t\tE3";
+      return "\t\tEsperando...\nEres el centrocampista\n de los verdes\n\t\t\t\t\t\tE3";
     case 5:
-      return "Eres el delantero\n de los verdes\n\t\t\t\t\tE2";
+      return "\t\tEsperando...\nEres el delantero\n de los verdes\n\t\t\t\t\tE2";
   }
   return "Ha ocurrido un error";
 }
@@ -365,7 +456,7 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11, fieldHeight / 2 - fieldHeight / 3.5),
+    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2 - fieldHeight / 3.5),
     area(),
     solid(),
     "player1",
@@ -373,7 +464,7 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11, fieldHeight / 2),
+    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2),
     area(),
     solid(),
     "player1",
@@ -381,7 +472,7 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11, fieldHeight / 2 + fieldHeight / 3.5),
+    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2 + fieldHeight / 3.5),
     area(),
     solid(),
     "player1",
@@ -851,9 +942,11 @@ onCollide("ball", "swing", () => {
       awaitChange = true;
       horizontalCollide = true;
       swingChangeSpeed(impulseSwing, impulseSwing);
-      break;
+      //break;
+    } else {
+      verticalCollide = true;
     }
-    if (
+    /*if (
       Math.abs(ball.pos.y - swingObject.pos.y) < 55 &&
       Math.abs(ball.pos.x - swingObject.pos.x) < 55 &&
       !awaitChange
@@ -862,7 +955,7 @@ onCollide("ball", "swing", () => {
       verticalCollide = true;
       swingChangeSpeed(impulseSwing, impulseSwing);
       break;
-    }
+    }*/
   }
 });
 
@@ -875,8 +968,17 @@ const swingY = 20;
 onKeyPress("w", () => {
   move_up();
 });
+
 onKeyPress("s", () => {
   move_down();
+});
+
+onKeyPress("j", () => {
+  swing_defensive();
+});
+
+onKeyPress("l", () => {
+  swing_offensive();
 });
 
 onCollide("ball", "bordeVertical", () => {
