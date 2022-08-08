@@ -1,6 +1,7 @@
 import kaboom from "kaboom";
 import { io } from "socket.io-client";
 
+// CONEXION CON EL SERVIDOR
 const socket = io("ws://localhost:3000");
 
 socket.on("connect", () => {
@@ -118,7 +119,7 @@ loadSprite(
 loadSprite(
   "swing",
   "http://2.bp.blogspot.com/_lj_y7Z_fw94/S7hJYY0udEI/AAAAAAAAA14/P-cNKvMZBV0/s1600/sun+animated+clip+art.gif"
-)
+);
 
 // player  556*556
 //         scale(0.005)
@@ -412,11 +413,14 @@ const timer = add([
 ]);
 
 timer.onUpdate(() => {
-  if (timer.time <= remainingTime/2 + 1 && timer.time >= remainingTime/2 - 1) {
+  if (
+    timer.time <= remainingTime / 2 + 1 &&
+    timer.time >= remainingTime / 2 - 1
+  ) {
     shake(8);
     audioAviso.play();
     add([
-      text("Quedan " + remainingTime/2 + "segundos"),
+      text("Quedan " + remainingTime / 2 + "segundos"),
       origin("left"),
       pos(width / 2 - width / 4, height / 2),
       scale(6),
@@ -433,7 +437,8 @@ timer.onUpdate(() => {
   if (timer.time <= 0) {
     moveBall = false;
     movePlayer = false;
-    var message = (goals1 == goals2) ? "EMPATE": (goals1 < goals2) ? "DERROTA" : "VICTORIA";
+    var message =
+      goals1 == goals2 ? "EMPATE" : goals1 < goals2 ? "DERROTA" : "VICTORIA";
     message = "JUEGO TERMINADO\n\t\t\t\t " + message;
     add([
       text(message),
@@ -443,7 +448,6 @@ timer.onUpdate(() => {
     ]);
   }
 });
-
 
 function reduceSpeed(impulseX, impulseY) {
   if (currentSpeedY > 0) {
@@ -506,9 +510,8 @@ onUpdate("ball", (b) => {
       break;
     }
   }
-  reduceSpeed(0,0);
+  reduceSpeed(0, 0);
 });
-
 
 onUpdate("player1", () => {
   // -----------  PLAYER 3  -----------
@@ -723,13 +726,13 @@ onKeyPress("x", () => {
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(players3[i].pos.x+swingX,players3[i].pos.y-swingY),
+      pos(players3[i].pos.x + swingX, players3[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-})
+});
 
 // -----------  PLAYER 2  -----------
 onKeyPress("e", () => {
@@ -744,13 +747,13 @@ onKeyPress("c", () => {
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(players2[i].pos.x+swingX,players2[i].pos.y-swingY),
+      pos(players2[i].pos.x + swingX, players2[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-})
+});
 
 // -----------  PLAYER 1  -----------
 onKeyPress("q", () => {
@@ -765,14 +768,13 @@ onKeyPress("z", () => {
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(players1[i].pos.x+swingX,players1[i].pos.y-swingY),
+      pos(players1[i].pos.x + swingX, players1[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-})
-
+});
 
 // -----------  ENEMY 3  -----------
 onKeyPress("i", () => {
@@ -787,13 +789,13 @@ onKeyPress(",", () => {
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(enemy3[i].pos.x-2.5*swingX,enemy3[i].pos.y-swingY),
+      pos(enemy3[i].pos.x - 2.5 * swingX, enemy3[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-})
+});
 
 // -----------  ENEMY 2  -----------
 onKeyPress("u", () => {
@@ -808,13 +810,13 @@ onKeyPress("m", () => {
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(enemy2[i].pos.x-2.5*swingX,enemy2[i].pos.y-swingY),
+      pos(enemy2[i].pos.x - 2.5 * swingX, enemy2[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-})
+});
 
 // -----------  ENEMY 1  -----------
 onKeyPress("o", () => {
@@ -829,16 +831,13 @@ onKeyPress(".", () => {
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(enemy1[i].pos.x-2.5*swingX,enemy1[i].pos.y-swingY),
+      pos(enemy1[i].pos.x - 2.5 * swingX, enemy1[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-})
-
-
-
+});
 
 onCollide("ball", "bordeVertical", () => {
   horizontalCollide = true;
