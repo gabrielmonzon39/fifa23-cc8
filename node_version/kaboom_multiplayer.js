@@ -111,6 +111,7 @@ let currentSpeedY = speedY;
 
 let horizontalCollide = false;
 let verticalCollide = false;
+let readyState = true;
 
 let goals1 = 0;
 let goals2 = 0;
@@ -561,10 +562,12 @@ timer.onUpdate(() => {
       lifespan(3),
     ]);
   }
-  if (timer.time > 119) {
-    while(player_number == -1) {
+  if (timer.time >= 119 && player_number != -1) {
+    //while (player_number == -1);   
+    if (readyState) {
+      readyState = false;
+      socket.emit("ready", player_number);
     }
-    //while(!game_full)
     add([
       text(getPlayerLocation(player_number)),
       origin("left"),
@@ -573,7 +576,7 @@ timer.onUpdate(() => {
       lifespan(3),
     ]);
   }
-  if (timer.time > 0) timer.time -= dt();
+  if (timer.time > 0 && game_full) timer.time -= dt();
   timer.text = timer.time.toFixed(2);
   if (timer.time <= 0) {
     moveBall = false;
@@ -627,8 +630,12 @@ function swingChangeSpeed(impulseX, impulseY) {
   }
 }
 
+onLoad(() => {
+})
+
 onUpdate("ball", (b) => {
   if (!moveBall) return;
+  if (!game_full) return;
   if (
     currentSpeedX < 5 &&
     currentSpeedX > -5 &&
