@@ -89,7 +89,7 @@ socket.on("move_down", (player_number) => {
 let audioMusica = document.getElementById("musica");
 let audioGol = document.getElementById("gol");
 let audioAviso = document.getElementById("aviso");
-let audioChoque = document.getElementById("choque");
+//let audioChoque = document.getElementById("choque");
 audioMusica.volume = 0.2;
 audioMusica.play();
 
@@ -839,7 +839,7 @@ onCollide("ball", "player1", () => {
 });
 
 onCollide("ball", "swing", () => {
-  audioChoque.play();
+  //audioChoque.play();
   const allSwings = get("swing");
   for (var i = 0; i < allSwings.length; i++) {
     var swingObject = allSwings[i];

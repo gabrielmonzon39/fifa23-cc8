@@ -4,7 +4,7 @@ import kaboom from "kaboom";
 let audioMusica = document.getElementById("musica");
 let audioGol = document.getElementById("gol");
 let audioAviso = document.getElementById("aviso");
-let audioChoque = document.getElementById("choque");
+//let audioChoque = document.getElementById("choque");
 audioMusica.volume = 0.2;
 audioMusica.play();
 
@@ -33,9 +33,9 @@ let moveBall = true;
 let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.5;
+const friction = 0.4;
 const impulsePlayer = 10;
-const impulseSwing = 150;
+const impulseSwing = 100;
 
 let p3Counter = 0,
   p3UP = false,
@@ -258,7 +258,7 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11, fieldHeight / 2 - fieldHeight / 3.5),
+    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2 - fieldHeight / 3.5),
     area(),
     solid(),
     "player1",
@@ -266,7 +266,7 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11, fieldHeight / 2),
+    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2),
     area(),
     solid(),
     "player1",
@@ -274,7 +274,7 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11, fieldHeight / 2 + fieldHeight / 3.5),
+    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2 + fieldHeight / 3.5),
     area(),
     solid(),
     "player1",
@@ -659,30 +659,33 @@ onCollide("ball", "player1", () => {
 });
 
 onCollide("ball", "swing", () => {
-  audioChoque.play();
+  console.log("choque");
+  //audioChoque.play();
   const allSwings = get("swing");
   for (var i = 0; i < allSwings.length; i++) {
     var swingObject = allSwings[i];
     if (
-      Math.abs(ball.pos.x - swingObject.pos.x) < 60 &&
-      Math.abs(ball.pos.y - swingObject.pos.y) < 20 &&
+      Math.abs(ball.pos.x - swingObject.pos.x) < 90 &&
+      Math.abs(ball.pos.y - swingObject.pos.y) < 60 &&
       !awaitChange
     ) {
+      console.log("horiz");
       awaitChange = true;
       horizontalCollide = true;
       swingChangeSpeed(impulseSwing, impulseSwing);
-      break;
+    } else {
+      verticalCollide = true;
     }
-    if (
-      Math.abs(ball.pos.y - swingObject.pos.y) < 55 &&
-      Math.abs(ball.pos.x - swingObject.pos.x) < 55 &&
+    /*if (
+      Math.abs(ball.pos.y - swingObject.pos.y) < 75 &&
+      Math.abs(ball.pos.x - swingObject.pos.x) < 75 &&
       !awaitChange
     ) {
+      console.log("verti");
       awaitChange = true;
       verticalCollide = true;
       swingChangeSpeed(impulseSwing, impulseSwing);
-      break;
-    }
+    }*/
   }
 });
 
