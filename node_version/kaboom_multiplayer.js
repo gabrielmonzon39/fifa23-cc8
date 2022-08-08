@@ -104,7 +104,7 @@ const speedY = 365;
 //const speedX = 0
 //const speedY = -50
 
-const remainingTime = 30;
+const remainingTime = 120;
 
 let currentSpeedX = speedX;
 let currentSpeedY = speedY;
@@ -118,9 +118,9 @@ let moveBall = true;
 let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.6;
-const impulsePlayer = 7;
-const impulseSwing = 14;
+const friction = 0.5;
+const impulsePlayer = 10;
+const impulseSwing = 150;
 
 let p3Counter = 0,
   p3UP = false,
@@ -159,6 +159,7 @@ kaboom({
   font: "sinko",
   canvas: document.querySelector("#mycanvas"),
 });
+
 
 // load assets
 loadSprite(
@@ -324,6 +325,26 @@ add([
   opacity(0),
   circle(fieldWidth / 17),
 ]);
+
+
+// mensaje de indicación de jugador
+function getPlayerLocation(player_number) {
+  switch (player_number) {
+    case 0: 
+      return "Eres el portero\n de los rojos\n\t\t\t\t\t\tP1";
+    case 1: 
+      return "Eres el centrocampista\n de los rojos\n\t\t\t\t\t\tP3";
+    case 2:
+      return "Eres el delantero\n de los rojos\n\t\t\t\t\t\tP2";
+    case 3: 
+      return "Eres el portero\n de los verdes\n\t\t\t\t\t\tE1";
+    case 4: 
+      return "Eres el centrocampista\n de los verdes\n\t\t\t\t\t\tE3";
+    case 5:
+      return "Eres el delantero\n de los verdes\n\t\t\t\t\tE2";
+  }
+  return "Ha ocurrido un error";
+}
 
 // add the ball to screen
 var ball = add([
@@ -540,14 +561,25 @@ timer.onUpdate(() => {
       lifespan(3),
     ]);
   }
+  if (timer.time > 119) {
+    while(player_number == -1) {
+    }
+    //while(!game_full)
+    add([
+      text(getPlayerLocation(player_number)),
+      origin("left"),
+      pos(width / 2 - width / 7, height / 2),
+      scale(4),
+      lifespan(3),
+    ]);
+  }
   if (timer.time > 0) timer.time -= dt();
   timer.text = timer.time.toFixed(2);
   if (timer.time <= 0) {
     moveBall = false;
     movePlayer = false;
-    var message =
-      goals1 == goals2 ? "EMPATE" : goals1 < goals2 ? "DERROTA" : "VICTORIA";
-    message = "JUEGO TERMINADO\n\t\t\t\t " + message;
+    var message = getScoreMessage(player_number);
+    message = "JUEGO TERMINADO\n\t\t" + message;
     add([
       text(message),
       origin("left"),
@@ -556,6 +588,18 @@ timer.onUpdate(() => {
     ]);
   }
 });
+
+function getScoreMessage(player_number) {
+  //goals1 == goals2 ? "EMPATE" : goals1 < goals2 ? "DERROTA" : "VICTORIA";
+  if (goals1 == goals2) return "EMPATE";
+  if (player_number == 0 || player_number == 1 || player_number == 2) {
+    if (goals1 > goals2) return "VICTORIA";
+    return "DERROTA";
+  } else {
+    if (goals2 > goals1) return "VICTORIA";
+    return "DERROTA";
+  }
+}
 
 function reduceSpeed(impulseX, impulseY) {
   if (currentSpeedY > 0) {
@@ -799,7 +843,7 @@ onCollide("ball", "swing", () => {
     ) {
       awaitChange = true;
       horizontalCollide = true;
-      swingChangeSpeed(impulseSwing, 0);
+      swingChangeSpeed(impulseSwing, impulseSwing);
       break;
     }
     if (
@@ -809,7 +853,7 @@ onCollide("ball", "swing", () => {
     ) {
       awaitChange = true;
       verticalCollide = true;
-      swingChangeSpeed(0, impulseSwing);
+      swingChangeSpeed(impulseSwing, impulseSwing);
       break;
     }
   }
@@ -830,10 +874,12 @@ onKeyPress("s", () => {
 
 onCollide("ball", "bordeVertical", () => {
   horizontalCollide = true;
+  reduceSpeed(0, impulsePlayer);
 });
 
 onCollide("ball", "bordeHorizontal", () => {
   verticalCollide = true;
+  reduceSpeed(impulsePlayer, 0);
 });
 
 onCollide("ball", "porteria1", () => {

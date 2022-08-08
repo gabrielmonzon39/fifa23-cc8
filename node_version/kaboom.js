@@ -1,23 +1,4 @@
 import kaboom from "kaboom";
-import { io } from "socket.io-client";
-
-// CONEXION CON EL SERVIDOR
-const socket = io("ws://localhost:3000");
-
-socket.on("connect", () => {
-  console.log(socket.id);
-});
-
-socket.on("hello", (arg, callback) => {
-  console.log(arg); // "world"
-});
-
-function move_up() {
-  socket.emit("hello", "world", (response) => {
-    console.log(response); // "got it"
-  });
-  console.log(socket.id);
-}
 
 // MUSIC
 let audioMusica = document.getElementById("musica");
@@ -38,7 +19,7 @@ const speedY = 365;
 //const speedX = 0
 //const speedY = -50
 
-const remainingTime = 30;
+const remainingTime = 120;
 
 let currentSpeedX = speedX;
 let currentSpeedY = speedY;
@@ -52,9 +33,9 @@ let moveBall = true;
 let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.6;
-const impulsePlayer = 7;
-const impulseSwing = 14;
+const friction = 0.5;
+const impulsePlayer = 10;
+const impulseSwing = 150;
 
 let p3Counter = 0,
   p3UP = false,
@@ -119,7 +100,7 @@ loadSprite(
 loadSprite(
   "swing",
   "http://2.bp.blogspot.com/_lj_y7Z_fw94/S7hJYY0udEI/AAAAAAAAA14/P-cNKvMZBV0/s1600/sun+animated+clip+art.gif"
-);
+)
 
 // player  556*556
 //         scale(0.005)
@@ -413,14 +394,11 @@ const timer = add([
 ]);
 
 timer.onUpdate(() => {
-  if (
-    timer.time <= remainingTime / 2 + 1 &&
-    timer.time >= remainingTime / 2 - 1
-  ) {
+  if (timer.time <= remainingTime/2 + 1 && timer.time >= remainingTime/2 - 1) {
     shake(8);
     audioAviso.play();
     add([
-      text("Quedan " + remainingTime / 2 + "segundos"),
+      text("Quedan " + remainingTime/2 + "segundos"),
       origin("left"),
       pos(width / 2 - width / 4, height / 2),
       scale(6),
@@ -437,9 +415,8 @@ timer.onUpdate(() => {
   if (timer.time <= 0) {
     moveBall = false;
     movePlayer = false;
-    var message =
-      goals1 == goals2 ? "EMPATE" : goals1 < goals2 ? "DERROTA" : "VICTORIA";
-    message = "JUEGO TERMINADO\n\t\t\t\t " + message;
+    var message = (goals1 == goals2) ? "EMPATE": (goals1 < goals2) ? "VICTORIA DE VERDES" : "VICTORIA DE ROJOS";
+    message = "JUEGO TERMINADO\n" + message;
     add([
       text(message),
       origin("left"),
@@ -448,6 +425,7 @@ timer.onUpdate(() => {
     ]);
   }
 });
+
 
 function reduceSpeed(impulseX, impulseY) {
   if (currentSpeedY > 0) {
@@ -510,8 +488,9 @@ onUpdate("ball", (b) => {
       break;
     }
   }
-  reduceSpeed(0, 0);
+  reduceSpeed(0,0);
 });
+
 
 onUpdate("player1", () => {
   // -----------  PLAYER 3  -----------
@@ -691,7 +670,7 @@ onCollide("ball", "swing", () => {
     ) {
       awaitChange = true;
       horizontalCollide = true;
-      swingChangeSpeed(impulseSwing, 0);
+      swingChangeSpeed(impulseSwing, impulseSwing);
       break;
     }
     if (
@@ -701,7 +680,7 @@ onCollide("ball", "swing", () => {
     ) {
       awaitChange = true;
       verticalCollide = true;
-      swingChangeSpeed(0, impulseSwing);
+      swingChangeSpeed(impulseSwing, impulseSwing);
       break;
     }
   }
@@ -715,136 +694,195 @@ const swingY = 20;
 // -----------  PLAYER 3  -----------
 onKeyPress("w", () => {
   p3UP = true;
-  move_up();
+  p2UP = true;
+  p1UP = true;
 });
 onKeyPress("s", () => {
   p3DOWN = true;
+  p1DOWN = true;
+  p2DOWN = true;
 });
-onKeyPress("x", () => {
+
+onKeyPress("l", () => {
+  // -----------  PLAYER 3  -----------
   for (var i = 0; i < players3.length; i++) {
     add([
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(players3[i].pos.x + swingX, players3[i].pos.y - swingY),
+      pos(players3[i].pos.x+swingX,players3[i].pos.y-swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-});
-
-// -----------  PLAYER 2  -----------
-onKeyPress("e", () => {
-  p2UP = true;
-});
-onKeyPress("d", () => {
-  p2DOWN = true;
-});
-onKeyPress("c", () => {
+  // -----------  PLAYER 2  -----------
   for (var i = 0; i < players2.length; i++) {
     add([
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(players2[i].pos.x + swingX, players2[i].pos.y - swingY),
+      pos(players2[i].pos.x+swingX,players2[i].pos.y-swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-});
-
-// -----------  PLAYER 1  -----------
-onKeyPress("q", () => {
-  p1UP = true;
-});
-onKeyPress("a", () => {
-  p1DOWN = true;
-});
-onKeyPress("z", () => {
+  // -----------  PLAYER 1  -----------
   for (var i = 0; i < players1.length; i++) {
     add([
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(players1[i].pos.x + swingX, players1[i].pos.y - swingY),
+      pos(players1[i].pos.x+swingX,players1[i].pos.y-swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-});
+})
+
+onKeyPress("j", () => {
+  // -----------  PLAYER 3  -----------
+  for (var i = 0; i < players3.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(players3[i].pos.x-2.5*swingX,players3[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+  // -----------  PLAYER 2  -----------
+  for (var i = 0; i < players2.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(players2[i].pos.x-2.5*swingX,players2[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+  // -----------  PLAYER 1  -----------
+  for (var i = 0; i < players1.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(players1[i].pos.x-2.5*swingX,players1[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
+
+
 
 // -----------  ENEMY 3  -----------
-onKeyPress("i", () => {
+onKeyPress("up", () => {
   e3UP = true;
+  e2UP = true;
+  e1UP = true;
 });
-onKeyPress("k", () => {
+onKeyPress("down", () => {
   e3DOWN = true;
+  e2DOWN = true;
+  e1DOWN = true;
 });
-onKeyPress(",", () => {
+
+onKeyPress("1", () => {
+  // -----------  ENEMY 3  -----------
   for (var i = 0; i < enemy3.length; i++) {
     add([
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(enemy3[i].pos.x - 2.5 * swingX, enemy3[i].pos.y - swingY),
+      pos(enemy3[i].pos.x-2.5*swingX,enemy3[i].pos.y-swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-});
-
-// -----------  ENEMY 2  -----------
-onKeyPress("u", () => {
-  e2UP = true;
-});
-onKeyPress("j", () => {
-  e2DOWN = true;
-});
-onKeyPress("m", () => {
+  // -----------  ENEMY 2  -----------
   for (var i = 0; i < enemy2.length; i++) {
     add([
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(enemy2[i].pos.x - 2.5 * swingX, enemy2[i].pos.y - swingY),
+      pos(enemy2[i].pos.x-2.5*swingX,enemy2[i].pos.y-swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-});
-
-// -----------  ENEMY 1  -----------
-onKeyPress("o", () => {
-  e1UP = true;
-});
-onKeyPress("l", () => {
-  e1DOWN = true;
-});
-onKeyPress(".", () => {
+  // -----------  ENEMY 1  -----------
   for (var i = 0; i < enemy1.length; i++) {
     add([
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(enemy1[i].pos.x - 2.5 * swingX, enemy1[i].pos.y - swingY),
+      pos(enemy1[i].pos.x-2.5*swingX,enemy1[i].pos.y-swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
-});
+})
+
+onKeyPress("3", () => {
+  // -----------  ENEMY 3  -----------
+  for (var i = 0; i < enemy3.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(enemy3[i].pos.x+swingX,enemy3[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+  // -----------  ENEMY 2  -----------
+  for (var i = 0; i < enemy2.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(enemy2[i].pos.x+swingX,enemy2[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+  // -----------  ENEMY 1  -----------
+  for (var i = 0; i < enemy1.length; i++) {
+    add([
+      sprite("swing"),
+      scale(0.2),
+      lifespan(1),
+      pos(enemy1[i].pos.x+swingX,enemy1[i].pos.y-swingY),
+      area(),
+      solid(),
+      "swing",
+    ]);
+  }
+})
+
+
 
 onCollide("ball", "bordeVertical", () => {
   horizontalCollide = true;
+  reduceSpeed(0, impulsePlayer);
 });
 
 onCollide("ball", "bordeHorizontal", () => {
   verticalCollide = true;
+  reduceSpeed(impulsePlayer, 0);
 });
 
 onCollide("ball", "porteria1", () => {
