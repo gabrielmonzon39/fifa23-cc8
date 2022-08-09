@@ -31,6 +31,8 @@ socket.on("game_full", () => {
 
 //get ball_coordinates from socket
 socket.on("ball_coordinates", (x, y) => {
+  // ignore if player_number is 0
+  if (player_number == 0) return;
   currentSpeedX = x;
   currentSpeedY = y;
 });
@@ -224,7 +226,7 @@ let movePlayer = true;
 
 const playerSpeed = 1200;
 const friction = 0;
-const impulsePlayer = 10;
+const impulsePlayer = 0;
 const impulseSwing = 100;
 
 let p3Counter = 0,
