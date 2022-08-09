@@ -207,7 +207,7 @@ let moveBall = true;
 let movePlayer = true;
 
 const playerSpeed = 1200;
-const friction = 0.4;
+const friction = 0;
 const impulsePlayer = 10;
 const impulseSwing = 100;
 
