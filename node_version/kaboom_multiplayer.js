@@ -735,8 +735,7 @@ onUpdate("ball", (b) => {
   if (player_number != 0) {
     b.pos.x = current_pos_x;
     b.pos.y = current_pos_y;
-    //b.move(currentSpeedX, currentSpeedY);
-    return;
+    //b.move(currentSpeedX, currentSpeedY);\
   }
   while (true) {
     if (horizontalCollide) {
