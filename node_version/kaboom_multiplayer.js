@@ -27,8 +27,8 @@ socket.on("game_full", () => {
   console.log("Game full");
 });
 
-current_pos_x = 0;
-current_pos_y = 0;
+var current_pos_x = 0;
+var current_pos_y = 0;
 //get ball_coordinates from socket
 socket.on("ball_coordinates", (x, y, vx, vy) => {
   // ignore if player_number is 0
