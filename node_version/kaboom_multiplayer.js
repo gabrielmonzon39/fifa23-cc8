@@ -93,14 +93,13 @@ socket.on("swing_defensive", (player_number) => {
   }
 });
 
-
 function make_swing_offensive(player) {
   for (var i = 0; i < player.length; i++) {
     add([
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(player[i].pos.x+swingX,player[i].pos.y-swingY),
+      pos(player[i].pos.x + swingX, player[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
@@ -114,15 +113,13 @@ function make_swing_defensive(player) {
       sprite("swing"),
       scale(0.2),
       lifespan(1),
-      pos(player[i].pos.x-2.5*swingX,player[i].pos.y-swingY),
+      pos(player[i].pos.x - 2.5 * swingX, player[i].pos.y - swingY),
       area(),
       solid(),
       "swing",
     ]);
   }
 }
-
-
 
 socket.on("move_up", (player_number) => {
   console.log(`Player ${player_number} moved up`);
@@ -252,12 +249,8 @@ kaboom({
   canvas: document.querySelector("#mycanvas"),
 });
 
-
 // load assets
-loadSprite(
-  "background",
-  "https://static.vecteezy.com/system/resources/previews/000/264/902/original/vector-scifi-space-background-for-ui-game.jpg"
-);
+loadSprite("background", "./background.jpg");
 loadSprite(
   "ball",
   "https://www.mariowiki.com/images/thumb/1/15/Ball_MarioStrikersCharged.png/180px-Ball_MarioStrikersCharged.png"
@@ -418,19 +411,18 @@ add([
   circle(fieldWidth / 17),
 ]);
 
-
 // mensaje de indicación de jugador
 function getPlayerLocation(player_number) {
   switch (player_number) {
-    case 0: 
+    case 0:
       return "\t\tEsperando...\nEres el portero\n de los rojos\n\t\t\t\t\t\tP1";
-    case 1: 
+    case 1:
       return "\t\tEsperando...\nEres el centrocampista\n de los rojos\n\t\t\t\t\t\tP3";
     case 2:
       return "\t\tEsperando...\nEres el delantero\n de los rojos\n\t\t\t\t\t\tP2";
-    case 3: 
+    case 3:
       return "\t\tEsperando...\nEres el portero\n de los verdes\n\t\t\t\t\t\tE1";
-    case 4: 
+    case 4:
       return "\t\tEsperando...\nEres el centrocampista\n de los verdes\n\t\t\t\t\t\tE3";
     case 5:
       return "\t\tEsperando...\nEres el delantero\n de los verdes\n\t\t\t\t\tE2";
@@ -456,7 +448,10 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2 - fieldHeight / 3.5),
+    pos(
+      fieldWidth / 2 - fieldWidth / 11 + 45,
+      fieldHeight / 2 - fieldHeight / 3.5
+    ),
     area(),
     solid(),
     "player1",
@@ -472,7 +467,10 @@ var players3 = [
   add([
     sprite("player"),
     scale(0.005),
-    pos(fieldWidth / 2 - fieldWidth / 11 + 45, fieldHeight / 2 + fieldHeight / 3.5),
+    pos(
+      fieldWidth / 2 - fieldWidth / 11 + 45,
+      fieldHeight / 2 + fieldHeight / 3.5
+    ),
     area(),
     solid(),
     "player1",
@@ -591,47 +589,17 @@ const timer = add([
   },
 ]);
 
-const P1 = add([
-  text("P1"),
-  pos(120,950),
-  scale(3),
-  layer("ui")
-]);
+const P1 = add([text("P1"), pos(120, 950), scale(3), layer("ui")]);
 
-const P3 = add([
-  text("P3"),
-  pos(550,950),
-  scale(3),
-  layer("ui")
-]);
+const P3 = add([text("P3"), pos(550, 950), scale(3), layer("ui")]);
 
-const P2 = add([
-  text("P2"),
-  pos(1170,950),
-  scale(3),
-  layer("ui")
-]);
+const P2 = add([text("P2"), pos(1170, 950), scale(3), layer("ui")]);
 
-const E2 = add([
-  text("E2"),
-  pos(330,950),
-  scale(3),
-  layer("ui")
-]);
+const E2 = add([text("E2"), pos(330, 950), scale(3), layer("ui")]);
 
-const E3 = add([
-  text("E3"),
-  pos(950,950),
-  scale(3),
-  layer("ui")
-]);
+const E3 = add([text("E3"), pos(950, 950), scale(3), layer("ui")]);
 
-const E1 = add([
-  text("E1"),
-  pos(1400,950),
-  scale(3),
-  layer("ui")
-]);
+const E1 = add([text("E1"), pos(1400, 950), scale(3), layer("ui")]);
 
 timer.onUpdate(() => {
   if (
@@ -654,7 +622,7 @@ timer.onUpdate(() => {
     ]);
   }
   if (timer.time >= 119 && player_number != -1) {
-    //while (player_number == -1);   
+    //while (player_number == -1);
     if (readyState) {
       readyState = false;
       socket.emit("ready", player_number);
@@ -721,8 +689,7 @@ function swingChangeSpeed(impulseX, impulseY) {
   }
 }
 
-onLoad(() => {
-})
+onLoad(() => {});
 
 onUpdate("ball", (b) => {
   if (!moveBall) return;
