@@ -20,7 +20,7 @@ socket.on("player_number", (number) => {
 
   //if player number is 0, call send_ball_coordinates every 100ms
   if (player_number == 0) {
-    setInterval(send_ball_coordinates, 100);
+    setInterval(send_ball_coordinates, 150);
   }
 });
 
@@ -60,7 +60,7 @@ function swing_defensive() {
 
 // receive swing action
 socket.on("swing_offensive", (player_number) => {
-  console.log(`Player ${player_number} make a swing offensive`);
+  // console.log(`Player ${player_number} make a swing offensive`);
   // switch player number to move up
   switch (player_number) {
     case 0:
@@ -85,7 +85,7 @@ socket.on("swing_offensive", (player_number) => {
 });
 
 socket.on("swing_defensive", (player_number) => {
-  console.log(`Player ${player_number} make a swing defensive`);
+  // console.log(`Player ${player_number} make a swing defensive`);
   // switch player number to move up
   switch (player_number) {
     case 0:
@@ -138,7 +138,7 @@ function make_swing_defensive(player) {
 }
 
 socket.on("move_up", (player_number) => {
-  console.log(`Player ${player_number} moved up`);
+  // console.log(`Player ${player_number} moved up`);
   movePlayer = true;
   // switch player number to move up
   switch (player_number) {
@@ -164,7 +164,7 @@ socket.on("move_up", (player_number) => {
 });
 
 socket.on("move_down", (player_number) => {
-  console.log(`Player ${player_number} moved down`);
+  // console.log(`Player ${player_number} moved down`);
   movePlayer = true;
   // switch player number to move down
   switch (player_number) {
