@@ -20,7 +20,7 @@ socket.on("player_number", (number) => {
 
   //if player number is 0, call send_ball_coordinates every 100ms
   if (player_number == 0) {
-    setInterval(send_ball_coordinates, 150);
+    setInterval(send_ball_coordinates, 75);
   }
 });
 
@@ -205,8 +205,8 @@ const height = 1000;
 const fieldWidth = 1350;
 const fieldHeight = 850;
 
-const speedX = 269;
-const speedY = 365;
+const speedX = 175;
+const speedY = 275;
 //const speedX = 0
 //const speedY = -50
 
