@@ -736,7 +736,6 @@ onUpdate("ball", (b) => {
     b.pos.x = current_pos_x;
     b.pos.y = current_pos_y;
     b.move(currentSpeedX, currentSpeedY);
-    return;
   }
   while (true) {
     if (horizontalCollide) {
