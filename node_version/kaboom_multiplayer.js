@@ -22,7 +22,7 @@ socket.on("player_number", (number) => {
 socket.on("game_full", () => {
   game_full = true; //if player number is 0, call send_ball_coordinates every 100ms
   if (player_number == 0) {
-    setInterval(send_ball_coordinates, 50);
+    setInterval(send_ball_coordinates, 10);
   }
   console.log("Game full");
 });
@@ -735,7 +735,8 @@ onUpdate("ball", (b) => {
   if (player_number != 0) {
     b.pos.x = current_pos_x;
     b.pos.y = current_pos_y;
-    b.move(currentSpeedX, currentSpeedY);
+    //b.move(currentSpeedX, currentSpeedY);
+    return;
   }
   while (true) {
     if (horizontalCollide) {
@@ -747,7 +748,7 @@ onUpdate("ball", (b) => {
       verticalCollide = false;
     }
     awaitChange = false;
-    b.move(currentSpeedX, currentSpeedY);
+    if (player_number == 0) b.move(currentSpeedX, currentSpeedY);
 
     if (b.pos.x == previousX && b.pos.y == previousY) {
       horizontalCollide = true;
