@@ -17,12 +17,28 @@ socket.on("connect", () => {
 socket.on("player_number", (number) => {
   player_number = number;
   console.log(`Player number: ${player_number}`);
+
+  //if player number is 0, call send_ball_coordinates every 100ms
+  if (player_number == 0) {
+    setInterval(send_ball_coordinates, 100);
+  }
 });
 
 socket.on("game_full", () => {
   game_full = true;
   console.log("Game full");
 });
+
+//get ball_coordinates from socket
+socket.on("ball_coordinates", (x, y) => {
+  currentSpeedX = x;
+  currentSpeedY = y;
+});
+
+//send ball_coordinates to server
+function send_ball_coordinates() {
+  socket.emit("ball_coordinates", currentSpeedX, currentSpeedY);
+}
 
 // emit move_up to server with player number
 function move_up() {
