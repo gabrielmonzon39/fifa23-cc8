@@ -27,17 +27,27 @@ socket.on("game_full", () => {
   console.log("Game full");
 });
 
+current_pos_x = 0;
+current_pos_y = 0;
 //get ball_coordinates from socket
-socket.on("ball_coordinates", (x, y) => {
+socket.on("ball_coordinates", (x, y, vx, vy) => {
   // ignore if player_number is 0
   if (player_number == 0) return;
-  currentSpeedX = x;
-  currentSpeedY = y;
+  currentSpeedX = vx;
+  currentSpeedY = vy;
+  current_pos_x = x;
+  current_pos_y = y;
 });
 
 //send ball_coordinates to server
 function send_ball_coordinates() {
-  socket.emit("ball_coordinates", currentSpeedX, currentSpeedY);
+  socket.emit(
+    "ball_coordinates",
+    current_pos_x,
+    current_pos_y,
+    currentSpeedX,
+    currentSpeedY
+  );
 }
 
 // emit move_up to server with player number
@@ -722,6 +732,12 @@ onUpdate("ball", (b) => {
     currentSpeedY = speedY;
     return;
   }
+  if (player_number != 0) {
+    b.pos.x = current_pos_x;
+    b.pos.y = current_pos_y;
+    b.move(currentSpeedX, currentSpeedY);
+    return;
+  }
   while (true) {
     if (horizontalCollide) {
       currentSpeedX = currentSpeedX * -1;
@@ -743,6 +759,8 @@ onUpdate("ball", (b) => {
       break;
     }
   }
+  current_pos_x = b.pos.x;
+  current_pos_y = b.pos.y;
   reduceSpeed(0, 0);
 });
 
