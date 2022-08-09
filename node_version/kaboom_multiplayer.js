@@ -22,7 +22,7 @@ socket.on("player_number", (number) => {
 socket.on("game_full", () => {
   game_full = true; //if player number is 0, call send_ball_coordinates every 100ms
   if (player_number == 0) {
-    setInterval(send_ball_coordinates, 30);
+    setInterval(send_ball_coordinates, 100);
   }
   console.log("Game full");
 });
