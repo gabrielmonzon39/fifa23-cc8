@@ -735,15 +735,9 @@ onUpdate("ball", (b) => {
   if (player_number != 0) {
     b.pos.x = current_pos_x;
     b.pos.y = current_pos_y;
-    if (b.pos.x == previousX && b.pos.y == previousY) {
-      horizontalCollide = true;
-      verticalCollide = true;
-    } else {
-      previousX = b.pos.x;
-      previousY = b.pos.y;
-    }
-    return;
     //b.move(currentSpeedX, currentSpeedY);
+  } else {
+    b.move(currentSpeedX, currentSpeedY);
   }
   while (true) {
     if (horizontalCollide) {
@@ -755,7 +749,6 @@ onUpdate("ball", (b) => {
       verticalCollide = false;
     }
     awaitChange = false;
-    if (player_number == 0) b.move(currentSpeedX, currentSpeedY);
 
     if (b.pos.x == previousX && b.pos.y == previousY) {
       horizontalCollide = true;
