@@ -29,9 +29,6 @@ socket.on("game_full", () => {
 
 socket.on("game_full", () => {
   game_full = true;
-  if (player_number == 0) {
-    setInterval(send_goals, 2000);
-  }
 });
 
 let goals1 = 0;
