@@ -737,7 +737,7 @@ function swingChangeSpeed(impulseX, impulseY) {
 
 onLoad(() => {});
 
-("onUpdateball", (b) => {
+onUpdate("ball", (b) => {
   if (!moveBall) return;
   if (!game_full) return;
   if (
