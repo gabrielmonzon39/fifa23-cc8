@@ -22,7 +22,7 @@ socket.on("player_number", (number) => {
 socket.on("game_full", () => {
   game_full = true; //if player number is 0, call send_ball_coordinates every 100ms
   if (player_number == 0) {
-    setInterval(send_ball_coordinates, 10);
+    setInterval(send_ball_coordinates, 5);
   }
   console.log("Game full");
 });
@@ -1021,7 +1021,11 @@ onCollide("ball", "porteria1", () => {
     send_goals();
   }
   score.text = goals1 / 2 + ":" + goals2 / 2;
-  ball.pos = new Vec2(width / 2, height / 2);
+  // update after 100 ms
+  setTimeout(() => {
+    ball.pos = new Vec2(width / 2, height / 2);
+  }, 200);
+
   currentSpeedX = speedX;
   currentSpeedY = speedY;
   shake();
@@ -1040,7 +1044,10 @@ onCollide("ball", "porteria2", () => {
     send_goals();
   }
   score.text = goals1 / 2 + ":" + goals2 / 2;
-  ball.pos = new Vec2(width / 2, height / 2);
+  setTimeout(() => {
+    ball.pos = new Vec2(width / 2, height / 2);
+  }, 200);
+
   currentSpeedX = speedX;
   currentSpeedY = speedY;
   shake();
