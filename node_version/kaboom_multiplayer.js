@@ -27,12 +27,12 @@ socket.on("game_full", () => {
   console.log("Game full");
 });
 
-socket.on("game_full", () =>{
+socket.on("game_full", () => {
   game_full = true;
-  if(player_number == 0){
+  if (player_number == 0) {
     setInterval(send_goals, 2000);
   }
-})
+});
 
 let goals1 = 0;
 let goals2 = 0;
@@ -49,10 +49,17 @@ socket.on("ball_coordinates", (x, y, vx, vy) => {
 });
 
 socket.on("goals", (g1, g2) => {
-  if(player_number == 0) return;
+  if (player_number == 0) return;
   goals1 = g1;
   goals2 = g2;
-})
+  audioGol.play();
+  shake();
+  add([
+    pos(-width / 5, height / 2 - height / 4),
+    sprite("lightning"),
+    lifespan(3, { fade: 2 }),
+  ]);
+});
 
 //send ball_coordinates to server
 function send_ball_coordinates() {
@@ -65,11 +72,8 @@ function send_ball_coordinates() {
   );
 }
 
-function send_goals(){
-  socket.emit("goals",
-    goals1,
-    goals2 
-  );
+function send_goals() {
+  socket.emit("goals", goals1, goals2);
 }
 
 // emit move_up to server with player number
@@ -780,7 +784,7 @@ onUpdate("ball", (b) => {
   current_pos_x = b.pos.x;
   current_pos_y = b.pos.y;
   reduceSpeed(0, 0);
-  if(player_number != 0){
+  if (player_number != 0) {
     score.text = goals1 / 2 + " : " + goals2 / 2;
   }
 });
@@ -1014,12 +1018,14 @@ onCollide("ball", "bordeHorizontal", () => {
 });
 
 onCollide("ball", "porteria1", () => {
+  if (player_number == 0) {
+    goals2++;
+    send_goals();
+  } else {
+    return;
+  }
   audioGol.play();
   horizontalCollide = true;
-  goals2++;
-  if(player_number == 0){
-    send_goals();
-  }
   score.text = goals1 / 2 + ":" + goals2 / 2;
   // update after 100 ms
   ball.pos = new Vec2(width / 2, height / 2);
@@ -1035,12 +1041,14 @@ onCollide("ball", "porteria1", () => {
 });
 
 onCollide("ball", "porteria2", () => {
+  if (player_number == 0) {
+    goals1++;
+    send_goals();
+  } else {
+    return;
+  }
   audioGol.play();
   horizontalCollide = true;
-  goals1++;
-  if(player_number == 0){
-    send_goals();
-  }
   score.text = goals1 / 2 + ":" + goals2 / 2;
   ball.pos = new Vec2(width / 2, height / 2);
 
