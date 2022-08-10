@@ -781,7 +781,7 @@ onUpdate("ball", (b) => {
   current_pos_y = b.pos.y;
   reduceSpeed(0, 0);
   if(player_number != 0){
-    score = goals1 / 2 + " : " + goals2 / 2;
+    score.text = goals1 / 2 + " : " + goals2 / 2;
   }
 });
 
