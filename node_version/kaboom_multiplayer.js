@@ -34,6 +34,8 @@ socket.on("game_full", () =>{
   }
 })
 
+let goals1 = 0;
+let goals2 = 0;
 var current_pos_x = 0;
 var current_pos_y = 0;
 //get ball_coordinates from socket
@@ -46,10 +48,10 @@ socket.on("ball_coordinates", (x, y, vx, vy) => {
   current_pos_y = y;
 });
 
-socket.on("goals", (G1, G2) => {
+socket.on("goals", (g1, g2) => {
   if(player_number == 0) return;
-  goals1 = G1;
-  goals2 = G2;
+  goals1 = g1;
+  goals2 = g2;
 })
 
 //send ball_coordinates to server
@@ -247,8 +249,6 @@ let horizontalCollide = false;
 let verticalCollide = false;
 let readyState = true;
 
-let goals1 = 0;
-let goals2 = 0;
 let moveBall = true;
 let movePlayer = true;
 
@@ -781,7 +781,7 @@ onUpdate("ball", (b) => {
   current_pos_y = b.pos.y;
   reduceSpeed(0, 0);
   if(player_number != 0){
-    score = G1 / 2 + " : " + G2 / 2;
+    score = goals1 / 2 + " : " + goals2 / 2;
   }
 });
 
