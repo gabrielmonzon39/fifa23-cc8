@@ -1022,9 +1022,7 @@ onCollide("ball", "porteria1", () => {
   }
   score.text = goals1 / 2 + ":" + goals2 / 2;
   // update after 100 ms
-  setTimeout(() => {
-    ball.pos = new Vec2(width / 2, height / 2);
-  }, 200);
+  ball.pos = new Vec2(width / 2, height / 2);
 
   currentSpeedX = speedX;
   currentSpeedY = speedY;
@@ -1044,9 +1042,7 @@ onCollide("ball", "porteria2", () => {
     send_goals();
   }
   score.text = goals1 / 2 + ":" + goals2 / 2;
-  setTimeout(() => {
-    ball.pos = new Vec2(width / 2, height / 2);
-  }, 200);
+  ball.pos = new Vec2(width / 2, height / 2);
 
   currentSpeedX = speedX;
   currentSpeedY = speedY;
